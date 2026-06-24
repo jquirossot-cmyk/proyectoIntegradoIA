@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Dashboard · Jouslynia Admin</title>
+
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body class="pagina-admin" id="cuerpo-admin">
+
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"
+       onclick="cerrarSidebarMovil()"></div>
+
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menú de administración"></aside>
+
+  <div class="admin-main">
+
+    <header class="admin-topbar" id="topbar" role="banner"></header>
+
+    <main class="admin-contenido" id="contenido-principal" aria-label="Dashboard de administración">
+
+      <!-- Cabecera de bienvenida -->
+      <div class="seccion-admin__cabecera">
+        <div>
+          <h1 class="seccion-admin__titulo" id="titulo-bienvenida">Buenos días 👋</h1>
+          <p class="seccion-admin__subtitulo">Resumen general de la plataforma al día de hoy.</p>
+        </div>
+        <div class="seccion-admin__acciones">
+          <a href="gestion-eventos.html" class="btn btn-primario btn-sm">+ Nuevo evento</a>
+        </div>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="grid-stats" role="region" aria-label="Estadísticas generales">
+
+        <div class="stat-card stat-card--eventos">
+          <div class="stat-card__icono" aria-hidden="true">🗓️</div>
+          <div class="stat-card__datos">
+            <div class="stat-card__numero" id="stat-total-eventos">–</div>
+            <div class="stat-card__etiqueta">Eventos activos</div>
+            <span class="stat-card__cambio stat-card__cambio--positivo">↑ 2 este mes</span>
+          </div>
+        </div>
+
+        <div class="stat-card stat-card--usuarios">
+          <div class="stat-card__icono" aria-hidden="true">👥</div>
+          <div class="stat-card__datos">
+            <div class="stat-card__numero" id="stat-total-usuarios">–</div>
+            <div class="stat-card__etiqueta">Usuarios registrados</div>
+            <span class="stat-card__cambio stat-card__cambio--positivo">↑ 1 hoy</span>
+          </div>
+        </div>
+
+        <div class="stat-card stat-card--actividades">
+          <div class="stat-card__icono" aria-hidden="true">📋</div>
+          <div class="stat-card__datos">
+            <div class="stat-card__numero" id="stat-total-actividades">–</div>
+            <div class="stat-card__etiqueta">Actividades programadas</div>
+            <span class="stat-card__cambio stat-card__cambio--neutro">En agenda</span>
+          </div>
+        </div>
+
+        <div class="stat-card stat-card--cupos">
+          <div class="stat-card__icono" aria-hidden="true">🎟️</div>
+          <div class="stat-card__datos">
+            <div class="stat-card__numero" id="stat-cupos-disp">–</div>
+            <div class="stat-card__etiqueta">Cupos disponibles</div>
+            <span class="stat-card__cambio stat-card__cambio--neutro" id="stat-pct-ocup">–% ocupación</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Tabla + Actividad reciente -->
+      <div class="grid-dashboard">
+
+        <div class="panel-card">
+          <div class="panel-card__cabecera">
+            <div>
+              <div class="panel-card__titulo">Próximos eventos</div>
+              <div class="panel-card__subtitulo">Ordenados por fecha más cercana</div>
+            </div>
+            <a href="gestion-eventos.html" class="btn btn-secundario btn-sm">Ver todos →</a>
+          </div>
+          <div class="tabla-contenedor">
+            <table class="tabla-admin" aria-label="Próximos eventos">
+              <thead>
+                <tr>
+                  <th scope="col">Evento</th>
+                  <th scope="col">Categoría</th>
+                  <th scope="col">Fecha</th>
+                  <th scope="col">Cupos</th>
+                  <th scope="col">Estado</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-eventos-recientes">
+                <tr>
+                  <td colspan="5" style="text-align:center;padding:2rem;color:var(--texto-tenue);">
+                    Cargando…
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:var(--espacio-5);">
+
+          <div class="panel-card">
+            <div class="panel-card__cabecera">
+              <div class="panel-card__titulo">Ocupación por evento</div>
+            </div>
+            <div class="panel-card__cuerpo">
+              <div id="grafico-ocupacion"></div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-card__cabecera">
+              <div class="panel-card__titulo">Actividad reciente</div>
+            </div>
+            <div class="panel-card__cuerpo" style="padding-block:0;">
+              <div class="actividad-reciente" id="actividad-reciente"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="toast-contenedor" id="toast-contenedor" aria-live="assertive" aria-atomic="false"></div>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/admin.js"></script>
+  <script src="../js/sidebar.js"></script>
+  <script src="../js/panel-admin.js"></script>
+
+</body>
+</html>

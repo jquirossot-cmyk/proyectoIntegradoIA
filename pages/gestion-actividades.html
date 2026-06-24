@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Gestión de Actividades · Jouslynia Admin</title>
+
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/gestion-actividades.css">
+</head>
+
+<body class="pagina-admin" id="cuerpo-admin">
+
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"
+       onclick="cerrarSidebarMovil()"></div>
+
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menú de administración"></aside>
+
+  <div class="admin-main">
+
+    <header class="admin-topbar" id="topbar" role="banner"></header>
+
+    <main class="admin-contenido" id="contenido-principal">
+
+      <div class="seccion-admin__cabecera">
+        <div>
+          <h1 class="seccion-admin__titulo">Actividades</h1>
+          <p class="seccion-admin__subtitulo">
+            Administra la agenda de cada evento. Selecciona un evento y añade sus actividades.
+          </p>
+        </div>
+      </div>
+
+      <div class="layout-actividades">
+
+        <!-- Formulario (columna izquierda) -->
+        <div class="panel-formulario">
+          <div class="panel-card" style="border-radius:var(--radio-lg);overflow:hidden;">
+
+            <div class="form-actividad-header">
+              <div class="form-actividad-header__titulo" id="form-header-titulo">➕ Nueva actividad</div>
+              <div class="form-actividad-header__sub" id="form-header-sub">Añade una actividad a la agenda</div>
+            </div>
+
+            <div class="form-actividad-cuerpo">
+
+              <div class="form-alerta form-alerta--error" id="form-alerta" role="alert">
+                <span>⚠️</span>
+                <span id="form-alerta-texto">Revisa los campos.</span>
+              </div>
+
+              <form id="form-actividad" novalidate>
+                <input type="hidden" id="act-id" name="act-id">
+
+                <div class="form-grilla" style="gap:var(--espacio-4);">
+
+                  <div class="campo-form">
+                    <label class="campo-form__etiqueta" for="act-eventoId">Evento <span>*</span></label>
+                    <select id="act-eventoId" name="eventoId" class="campo-form__control">
+                      <option value="">— Selecciona un evento —</option>
+                    </select>
+                    <span class="campo-error-msg" id="error-eventoId" style="display:none;"></span>
+                  </div>
+
+                  <div class="campo-form">
+                    <label class="campo-form__etiqueta" for="act-nombre">Nombre de la actividad <span>*</span></label>
+                    <input type="text" id="act-nombre" name="nombre" class="campo-form__control"
+                           placeholder="Ej. Keynote: El futuro de la IA" maxlength="100">
+                    <span class="campo-error-msg" id="error-nombre" style="display:none;"></span>
+                  </div>
+
+                  <div class="fila-hora-dur">
+                    <div class="campo-form">
+                      <label class="campo-form__etiqueta" for="act-hora">Hora <span>*</span></label>
+                      <input type="time" id="act-hora" name="hora" class="campo-form__control">
+                      <span class="campo-error-msg" id="error-hora" style="display:none;"></span>
+                    </div>
+                    <div class="campo-form">
+                      <label class="campo-form__etiqueta" for="act-duracion">Duración (min) <span>*</span></label>
+                      <input type="number" id="act-duracion" name="duracion" class="campo-form__control"
+                             placeholder="60" min="5" max="480">
+                      <span class="campo-error-msg" id="error-duracion" style="display:none;"></span>
+                    </div>
+                  </div>
+
+                  <div class="campo-form">
+                    <label class="campo-form__etiqueta" for="act-ponente">Ponente</label>
+                    <input type="text" id="act-ponente" name="ponente" class="campo-form__control"
+                           placeholder="Nombre del ponente (opcional)" maxlength="80">
+                  </div>
+
+                  <div class="campo-form">
+                    <div class="campo-form__etiqueta" id="tipo-label">Tipo de actividad</div>
+                    <div class="tipos-actividad" role="group" aria-labelledby="tipo-label">
+                      <button type="button" class="tipo-btn tipo-btn--activo" data-tipo="🎤" title="Ponencia">🎤 <span>Ponencia</span></button>
+                      <button type="button" class="tipo-btn" data-tipo="🛠️" title="Taller">🛠️ <span>Taller</span></button>
+                      <button type="button" class="tipo-btn" data-tipo="☕" title="Break">☕ <span>Break</span></button>
+                      <button type="button" class="tipo-btn" data-tipo="🗣️" title="Panel">🗣️ <span>Panel</span></button>
+                      <button type="button" class="tipo-btn" data-tipo="💡" title="Demo">💡 <span>Demo</span></button>
+                      <button type="button" class="tipo-btn" data-tipo="🚀" title="Apertura">🚀 <span>Apertura</span></button>
+                      <button type="button" class="tipo-btn" data-tipo="🤝" title="Networking">🤝 <span>Network</span></button>
+                      <button type="button" class="tipo-btn" data-tipo="📋" title="Otro">📋 <span>Otro</span></button>
+                    </div>
+                    <input type="hidden" id="act-tipo" name="tipo" value="🎤">
+                  </div>
+
+                  <div style="display:flex;gap:var(--espacio-3);padding-top:var(--espacio-2);">
+                    <button type="submit" class="btn btn-primario" id="btn-guardar-act" style="flex:1;">
+                      Añadir actividad
+                    </button>
+                    <button type="button" class="btn btn-secundario" id="btn-cancelar-edicion" style="display:none;">
+                      Cancelar
+                    </button>
+                  </div>
+
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Tabla (columna derecha) -->
+        <div>
+          <div class="panel-card">
+
+            <div class="selector-evento-wrap">
+              <span class="selector-evento-label">Ver agenda de:</span>
+              <select class="selector-evento-select" id="selector-evento-tabla"
+                      aria-label="Seleccionar evento para ver su agenda">
+                <option value="">— Selecciona un evento —</option>
+              </select>
+              <span style="font-size:var(--texto-xs);color:var(--texto-tenue);white-space:nowrap;"
+                    id="contador-actividades" aria-live="polite"></span>
+            </div>
+
+            <div class="info-evento-sel" id="info-evento-sel" style="display:none;">
+              <span class="info-evento-sel__icono" id="info-ev-emoji" aria-hidden="true">📅</span>
+              <div>
+                <div class="info-evento-sel__nombre" id="info-ev-nombre">—</div>
+                <div class="info-evento-sel__meta" id="info-ev-meta">—</div>
+              </div>
+            </div>
+
+            <div class="tabla-contenedor">
+              <table class="tabla-admin" id="tabla-actividades" aria-label="Actividades del evento">
+                <thead>
+                  <tr>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Actividad</th>
+                    <th scope="col">Ponente</th>
+                    <th scope="col">Duración</th>
+                    <th scope="col" style="text-align:center;">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-actividades">
+                  <tr>
+                    <td colspan="6">
+                      <div class="tabla-vacia">
+                        <span class="tabla-vacia__icono" aria-hidden="true">📅</span>
+                        <div class="tabla-vacia__titulo">Selecciona un evento</div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal confirmar eliminar actividad -->
+  <div class="modal-fondo" id="modal-confirmar-act"
+       role="dialog" aria-modal="true" aria-labelledby="confirmar-act-titulo">
+    <div class="modal">
+      <div class="modal__encabezado">
+        <h2 class="modal__titulo" id="confirmar-act-titulo">Eliminar actividad</h2>
+        <button class="modal__cerrar" id="btn-cerrar-confirmar-act" aria-label="Cancelar">✕</button>
+      </div>
+      <div class="modal__confirmacion">
+        <span class="modal__confirmacion-icono" aria-hidden="true">🗑️</span>
+        <h3 class="modal__confirmacion-titulo">¿Eliminar esta actividad?</h3>
+        <p class="modal__confirmacion-texto" id="confirmar-act-texto">Esta acción no se puede deshacer fácilmente.</p>
+      </div>
+      <div class="modal__pie">
+        <button class="btn btn-secundario" id="btn-cancelar-act">Cancelar</button>
+        <button class="btn" id="btn-confirmar-eliminar-act"
+                style="background:var(--color-error);color:#fff;border-color:var(--color-error);">
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-contenedor" id="toast-contenedor" aria-live="assertive" aria-atomic="false"></div>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/admin.js"></script>
+  <script src="../js/sidebar.js"></script>
+  <script src="../js/gestion-actividades.js"></script>
+
+</body>
+</html>

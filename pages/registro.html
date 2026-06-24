@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Crea tu cuenta en Jouslynia para acceder a los eventos de CENFOTEC.">
+  <meta name="robots" content="noindex">
+  <title>Crear cuenta · Jouslynia CENFOTEC</title>
+
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/auth.css">
+</head>
+
+<body>
+
+  <div class="auth-layout">
+
+    <!-- Panel decorativo -->
+    <aside class="auth-panel-deco auth-panel-deco--morado" aria-hidden="true">
+      <div class="deco-logo">
+        <div class="deco-logo__icono">J</div>
+        <div>
+          <div class="deco-logo__nombre">Jouslynia</div>
+          <div class="deco-logo__sub">CENFOTEC Eventos</div>
+        </div>
+      </div>
+      <div class="deco-contenido">
+        <h2 class="deco-contenido__titulo">
+          Tu próxima aventura<br>empieza <span>aquí</span>
+        </h2>
+        <p class="deco-contenido__texto">
+          Únete a la comunidad de CENFOTEC y accede a eventos que
+          potenciarán tu desarrollo profesional.
+        </p>
+      </div>
+      <div class="deco-beneficios">
+        <div class="deco-beneficio">
+          <div class="deco-beneficio__ico">🗓️</div>
+          <span>Acceso a todos los eventos del semestre</span>
+        </div>
+        <div class="deco-beneficio">
+          <div class="deco-beneficio__ico">🎟️</div>
+          <span>Inscripción prioritaria con cupos limitados</span>
+        </div>
+        <div class="deco-beneficio">
+          <div class="deco-beneficio__ico">📬</div>
+          <span>Notificaciones de nuevos eventos</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Formulario -->
+    <main class="auth-formulario-col" id="contenido-principal">
+      <div class="auth-caja">
+
+        <a href="../index.html" class="auth-volver">← Volver al inicio</a>
+
+        <div class="auth-caja__cabecera">
+          <h1 class="auth-caja__titulo">Crea tu cuenta ✨</h1>
+          <p class="auth-caja__subtitulo">Solo te toma un minuto. Es completamente gratis.</p>
+        </div>
+
+        <div class="alerta-form" id="alerta-global" role="alert" aria-live="assertive">
+          <span id="alerta-icono" aria-hidden="true">❌</span>
+          <span id="alerta-texto">Error al registrar la cuenta.</span>
+        </div>
+
+        <form class="auth-form" id="form-registro" novalidate>
+
+          <div class="campos-fila">
+            <div class="campo-form">
+              <label class="campo-form__etiqueta" for="nombre">Nombre <span>*</span></label>
+              <input type="text" id="nombre" name="nombre" class="campo-form__control"
+                     placeholder="Tu nombre" autocomplete="given-name"
+                     required aria-required="true">
+              <span class="campo-error-msg" id="error-nombre" style="display:none;" role="alert"></span>
+            </div>
+            <div class="campo-form">
+              <label class="campo-form__etiqueta" for="apellido">Apellido <span>*</span></label>
+              <input type="text" id="apellido" name="apellido" class="campo-form__control"
+                     placeholder="Tu apellido" autocomplete="family-name"
+                     required aria-required="true">
+              <span class="campo-error-msg" id="error-apellido" style="display:none;" role="alert"></span>
+            </div>
+          </div>
+
+          <div class="campo-form">
+            <label class="campo-form__etiqueta" for="correo">Correo electrónico <span>*</span></label>
+            <input type="email" id="correo" name="correo" class="campo-form__control"
+                   placeholder="nombre@cenfotec.ac.cr" autocomplete="email" inputmode="email"
+                   required aria-required="true">
+            <span class="campo-error-msg" id="error-correo" style="display:none;" role="alert"></span>
+          </div>
+
+          <div class="campo-form">
+            <label class="campo-form__etiqueta" for="contrasena">Contraseña <span>*</span></label>
+            <div class="campo-pass">
+              <input type="password" id="contrasena" name="contrasena"
+                     class="campo-form__control campo-pass__control"
+                     placeholder="Mínimo 6 caracteres" autocomplete="new-password"
+                     required aria-required="true">
+              <button type="button" class="campo-pass__toggle" id="toggle-pass1"
+                      aria-label="Mostrar contraseña">👁️</button>
+            </div>
+            <div class="medidor-fortaleza" aria-hidden="true">
+              <div class="medidor-fortaleza__pista">
+                <div class="medidor-fortaleza__relleno" id="medidor-relleno"></div>
+              </div>
+              <span class="medidor-fortaleza__etiqueta" id="medidor-etiqueta"></span>
+            </div>
+            <span class="sr-solo" id="medidor-label" aria-live="polite"></span>
+            <span class="campo-error-msg" id="error-contrasena" style="display:none;" role="alert"></span>
+          </div>
+
+          <div class="campo-form">
+            <label class="campo-form__etiqueta" for="confirmar">Confirmar contraseña <span>*</span></label>
+            <div class="campo-pass">
+              <input type="password" id="confirmar" name="confirmar"
+                     class="campo-form__control campo-pass__control"
+                     placeholder="Repite tu contraseña" autocomplete="new-password"
+                     required aria-required="true">
+              <button type="button" class="campo-pass__toggle" id="toggle-pass2"
+                      aria-label="Mostrar confirmación">👁️</button>
+            </div>
+            <span class="campo-error-msg" id="error-confirmar" style="display:none;" role="alert"></span>
+          </div>
+
+          <label class="campo-terminos">
+            <input type="checkbox" id="terminos" name="terminos" required>
+            <span>
+              Acepto los <a href="#" onclick="return false;">términos de uso</a>
+              y la <a href="#" onclick="return false;">política de privacidad</a> de CENFOTEC.
+            </span>
+          </label>
+          <span class="campo-error-msg" id="error-terminos" style="display:none;" role="alert"></span>
+
+          <button type="submit" class="btn btn-primario btn-bloque btn-lg" id="btn-registrar"
+                  style="background:linear-gradient(135deg,var(--color-AzulOscuro),var(--color-Morado));">
+            Crear mi cuenta
+          </button>
+
+        </form>
+
+        <div class="auth-caja__pie">
+          ¿Ya tienes cuenta? <a href="login.html">Inicia sesión →</a>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <div class="toast-contenedor" id="toast-contenedor" aria-live="assertive" aria-atomic="false"></div>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/registro.js"></script>
+
+</body>
+</html>

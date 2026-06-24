@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Gestión de Eventos · Jouslynia Admin</title>
+
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/gestion-eventos.css">
+</head>
+
+<body class="pagina-admin" id="cuerpo-admin">
+
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"
+       onclick="cerrarSidebarMovil()"></div>
+
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menú de administración"></aside>
+
+  <div class="admin-main">
+
+    <header class="admin-topbar" id="topbar" role="banner"></header>
+
+    <main class="admin-contenido" id="contenido-principal">
+
+      <div class="seccion-admin__cabecera">
+        <div>
+          <h1 class="seccion-admin__titulo">Eventos</h1>
+          <p class="seccion-admin__subtitulo">Crea, edita y administra todos los eventos de CENFOTEC.</p>
+        </div>
+        <div class="seccion-admin__acciones">
+          <button class="btn btn-primario" id="btn-nuevo-evento">+ Nuevo evento</button>
+        </div>
+      </div>
+
+      <div class="panel-card">
+
+        <!-- Controles -->
+        <div class="tabla-controles">
+          <div style="display:flex;align-items:center;gap:var(--espacio-4);flex-wrap:wrap;">
+            <div class="tabla-filtros" role="group" aria-label="Filtrar por categoría">
+              <button class="tabla-filtro tabla-filtro--activo" data-filtro="todos">Todos</button>
+              <button class="tabla-filtro" data-filtro="congreso">Congresos</button>
+              <button class="tabla-filtro" data-filtro="taller">Talleres</button>
+              <button class="tabla-filtro" data-filtro="seminario">Seminarios</button>
+              <button class="tabla-filtro" data-filtro="hackathon">Hackathons</button>
+              <button class="tabla-filtro" data-filtro="conferencia">Conferencias</button>
+            </div>
+            <label style="display:flex;align-items:center;gap:6px;font-size:var(--texto-xs);color:var(--texto-tenue);cursor:pointer;user-select:none;">
+              <input type="checkbox" id="toggle-inactivos" style="accent-color:var(--color-AzulClaro);">
+              Mostrar eliminados
+            </label>
+          </div>
+          <div class="contador-resultados">
+            Mostrando <strong id="num-resultados">–</strong> eventos
+          </div>
+        </div>
+
+        <!-- Tabla -->
+        <div class="tabla-contenedor" role="region" aria-label="Lista de eventos">
+          <table class="tabla-admin" id="tabla-eventos" aria-label="Eventos registrados">
+            <thead>
+              <tr>
+                <th scope="col" style="width:34px;">#</th>
+                <th scope="col">Evento</th>
+                <th scope="col">Categoría</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Cupos</th>
+                <th scope="col">Estado</th>
+                <th scope="col" style="text-align:center;">⭐</th>
+                <th scope="col" style="text-align:center;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-eventos"></tbody>
+          </table>
+        </div>
+
+        <div class="paginacion" id="contenedor-paginacion" aria-label="Paginación"></div>
+
+      </div>
+    </main>
+  </div>
+
+
+  <!-- Modal crear / editar evento -->
+  <div class="modal-fondo modal-evento" id="modal-evento"
+       role="dialog" aria-modal="true" aria-labelledby="modal-evento-titulo">
+    <div class="modal">
+
+      <div class="modal-evento__header">
+        <div class="modal-evento__icono" id="modal-icono" aria-hidden="true">🗓️</div>
+        <div>
+          <h2 class="modal-evento__titulo" id="modal-evento-titulo">Nuevo evento</h2>
+          <p class="modal-evento__subtitulo" id="modal-evento-subtitulo">Completa los datos</p>
+        </div>
+        <button class="modal__cerrar" id="btn-cerrar-modal-evento"
+                style="margin-left:auto;" aria-label="Cerrar">✕</button>
+      </div>
+
+      <form id="form-evento" novalidate>
+        <input type="hidden" id="ev-id" name="ev-id">
+
+        <div class="form-grilla form-grilla--2col">
+
+          <div class="campo-form form-grilla__completo">
+            <label class="campo-form__etiqueta" for="ev-nombre">Nombre del evento <span>*</span></label>
+            <input type="text" id="ev-nombre" name="nombre" class="campo-form__control"
+                   placeholder="Ej. Congreso de IA 2026" maxlength="120">
+            <span class="campo-error-msg" id="error-nombre" style="display:none;"></span>
+          </div>
+
+          <div class="campo-form form-grilla__completo">
+            <label class="campo-form__etiqueta" for="ev-descripcion">Descripción <span>*</span></label>
+            <textarea id="ev-descripcion" name="descripcion" class="campo-form__control"
+                      placeholder="Describe el evento…" maxlength="600"></textarea>
+            <span class="campo-error-msg" id="error-descripcion" style="display:none;"></span>
+          </div>
+
+          <div class="campo-form">
+            <label class="campo-form__etiqueta" for="ev-categoria">Categoría <span>*</span></label>
+            <select id="ev-categoria" name="categoria" class="campo-form__control">
+              <option value="">Selecciona…</option>
+              <option value="congreso">🎓 Congreso</option>
+              <option value="taller">🛠️ Taller</option>
+              <option value="seminario">📚 Seminario</option>
+              <option value="hackathon">💻 Hackathon</option>
+              <option value="conferencia">🎤 Conferencia</option>
+              <option value="otro">📅 Otro</option>
+            </select>
+            <span class="campo-error-msg" id="error-categoria" style="display:none;"></span>
+          </div>
+
+          <div class="campo-form">
+            <label class="campo-form__etiqueta" for="ev-cuposTotal">Cupos totales <span>*</span></label>
+            <input type="number" id="ev-cuposTotal" name="cuposTotal" class="campo-form__control"
+                   placeholder="Ej. 100" min="1" max="5000">
+            <span class="campo-error-msg" id="error-cuposTotal" style="display:none;"></span>
+          </div>
+
+          <div class="campo-form">
+            <label class="campo-form__etiqueta" for="ev-fecha">Fecha <span>*</span></label>
+            <input type="date" id="ev-fecha" name="fecha" class="campo-form__control">
+            <span class="campo-error-msg" id="error-fecha" style="display:none;"></span>
+          </div>
+
+          <div class="campo-form">
+            <label class="campo-form__etiqueta" for="ev-hora">Hora de inicio <span>*</span></label>
+            <input type="time" id="ev-hora" name="hora" class="campo-form__control">
+            <span class="campo-error-msg" id="error-hora" style="display:none;"></span>
+          </div>
+
+          <div class="campo-form form-grilla__completo">
+            <label class="campo-form__etiqueta" for="ev-lugar">Lugar / Aula <span>*</span></label>
+            <input type="text" id="ev-lugar" name="lugar" class="campo-form__control"
+                   placeholder="Ej. Auditorio Principal · CENFOTEC">
+            <span class="campo-error-msg" id="error-lugar" style="display:none;"></span>
+          </div>
+
+          <div class="campo-form form-grilla__completo">
+            <label class="campo-form__etiqueta" for="ev-organizador">Organizador <span>*</span></label>
+            <input type="text" id="ev-organizador" name="organizador" class="campo-form__control"
+                   placeholder="Ej. Facultad de Ingeniería">
+            <span class="campo-error-msg" id="error-organizador" style="display:none;"></span>
+          </div>
+
+          <div class="form-grilla__completo">
+            <label class="campo-checkbox">
+              <input type="checkbox" id="ev-destacado" name="destacado">
+              <div>
+                <div class="campo-checkbox__texto">⭐ Marcar como evento destacado</div>
+                <div class="campo-checkbox__desc">Aparecerá resaltado en la landing page pública.</div>
+              </div>
+            </label>
+          </div>
+
+        </div>
+
+        <div class="modal__pie">
+          <button type="button" class="btn btn-secundario" id="btn-cancelar-modal">Cancelar</button>
+          <button type="submit" class="btn btn-primario" id="btn-guardar-evento">Guardar evento</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Modal confirmar eliminación -->
+  <div class="modal-fondo" id="modal-confirmar"
+       role="dialog" aria-modal="true" aria-labelledby="confirmar-titulo">
+    <div class="modal">
+      <div class="modal__encabezado">
+        <h2 class="modal__titulo" id="confirmar-titulo">Eliminar evento</h2>
+        <button class="modal__cerrar" id="btn-cerrar-confirmar" aria-label="Cancelar">✕</button>
+      </div>
+      <div class="modal__confirmacion">
+        <span class="modal__confirmacion-icono" aria-hidden="true">⚠️</span>
+        <h3 class="modal__confirmacion-titulo">¿Eliminar este evento?</h3>
+        <p class="modal__confirmacion-texto" id="confirmar-texto">
+          Sus actividades también se desactivarán. Podrás restaurarlo después.
+        </p>
+      </div>
+      <div class="modal__pie">
+        <button class="btn btn-secundario" id="btn-cancelar-confirmar">Cancelar</button>
+        <button class="btn" id="btn-confirmar-eliminar"
+                style="background:var(--color-error);color:#fff;border-color:var(--color-error);">
+          Sí, eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-contenedor" id="toast-contenedor" aria-live="assertive" aria-atomic="false"></div>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/admin.js"></script>
+  <script src="../js/sidebar.js"></script>
+  <script src="../js/gestion-eventos.js"></script>
+
+</body>
+</html>

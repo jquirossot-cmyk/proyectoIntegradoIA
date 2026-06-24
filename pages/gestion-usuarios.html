@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Gestión de Usuarios · Jouslynia Admin</title>
+
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/gestion-usuarios.css">
+</head>
+
+<body class="pagina-admin" id="cuerpo-admin">
+
+  <!-- Overlay móvil -->
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"
+       onclick="cerrarSidebarMovil()"></div>
+
+  <!-- Sidebar (generado por sidebar.js) -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menú de administración"></aside>
+
+  <!-- Área principal -->
+  <div class="admin-main">
+
+    <!-- Topbar (generado por sidebar.js) -->
+    <header class="admin-topbar" id="topbar" role="banner"></header>
+
+    <!-- Contenido -->
+    <main class="admin-contenido" id="contenido-principal">
+
+      <div class="seccion-admin__cabecera">
+        <div>
+          <h1 class="seccion-admin__titulo">Usuarios</h1>
+          <p class="seccion-admin__subtitulo">
+            Gestiona los usuarios registrados, sus roles y estado de cuenta.
+          </p>
+        </div>
+        <div class="seccion-admin__acciones">
+          <button class="btn btn-secundario" id="btn-exportar-csv">
+            ⬇ Exportar CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- Tabla de usuarios -->
+      <div class="panel-card">
+
+        <!-- Resumen numérico -->
+        <div class="resumen-usuarios" id="resumen-usuarios" aria-label="Resumen de usuarios"></div>
+
+        <!-- Controles de filtro y búsqueda -->
+        <div class="tabla-controles">
+          <div class="tabla-filtros" role="group" aria-label="Filtrar por rol">
+            <button class="tabla-filtro tabla-filtro--activo" data-filtro="todos"      id="filtro-todos">Todos</button>
+            <button class="tabla-filtro" data-filtro="admin"      id="filtro-admin">👑 Admins</button>
+            <button class="tabla-filtro" data-filtro="asistente"  id="filtro-asistente">👤 Asistentes</button>
+            <button class="tabla-filtro" data-filtro="inactivo"   id="filtro-inactivo">🔴 Inactivos</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:var(--espacio-3);">
+            <div class="topbar__buscador" role="search" style="min-width:220px;">
+              <span class="topbar__buscador-icono" aria-hidden="true">🔍</span>
+              <input type="search" class="topbar__buscador-input" id="busqueda-usuarios"
+                     placeholder="Buscar por nombre o correo…" aria-label="Buscar usuarios">
+            </div>
+            <span class="contador-resultados" id="contador-usuarios" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <!-- Tabla -->
+        <div class="tabla-contenedor" role="region" aria-label="Lista de usuarios">
+          <table class="tabla-admin" id="tabla-usuarios" aria-label="Usuarios registrados">
+            <thead>
+              <tr>
+                <th scope="col">Usuario</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Rol</th>
+                <th scope="col">Estado</th>
+                <th scope="col" style="text-align:center;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-usuarios">
+              <tr>
+                <td colspan="5" style="text-align:center;padding:2rem;color:var(--texto-tenue);">
+                  Cargando usuarios…
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Paginación -->
+        <div class="paginacion" id="paginacion-usuarios" aria-label="Paginación de usuarios"></div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Modal confirmar eliminar -->
+  <div class="modal-fondo modal-confirmar-usr" id="modal-confirmar-usr"
+       role="dialog" aria-modal="true" aria-labelledby="confirmar-usr-titulo">
+    <div class="modal">
+      <div class="modal__encabezado">
+        <h2 class="modal__titulo" id="confirmar-usr-titulo">Eliminar usuario</h2>
+        <button class="modal__cerrar" id="btn-cerrar-confirmar-usr" aria-label="Cancelar">✕</button>
+      </div>
+      <div class="modal__confirmacion">
+        <span class="modal__confirmacion-icono" aria-hidden="true">⚠️</span>
+        <h3 class="modal__confirmacion-titulo">¿Eliminar este usuario?</h3>
+        <p class="modal__confirmacion-texto" id="texto-confirmar-usr">
+          El usuario quedará desactivado. Podrás restaurarlo más adelante.
+        </p>
+      </div>
+      <div class="modal__pie">
+        <button class="btn btn-secundario" id="btn-cancelar-usr">Cancelar</button>
+        <button class="btn" id="btn-confirmar-eliminar-usr"
+                style="background:var(--color-error);color:#fff;border-color:var(--color-error);">
+          Sí, eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-contenedor" id="toast-contenedor" aria-live="assertive" aria-atomic="false"></div>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/admin.js"></script>
+  <script src="../js/usuarios.js"></script>
+  <script src="../js/sidebar.js"></script>
+  <script src="../js/gestion-usuarios.js"></script>
+
+</body>
+</html>

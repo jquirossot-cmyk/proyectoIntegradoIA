@@ -1,0 +1,382 @@
+/* ================================================================
+   JOUSLYNIA — Sistema de Gestión de Eventos · Universidad CENFOTEC
+   /css/reportes.css
+   Depende de: styles.css + admin.css
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Grid de métricas principales (fila de KPIs)
+   ---------------------------------------------------------------- */
+.grid-kpi {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--espacio-4);
+}
+
+.kpi-card {
+  background: var(--superficie-blanca);
+  border: 1px solid var(--admin-borde);
+  border-radius: var(--radio-lg);
+  padding: var(--espacio-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-3);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow var(--trans-normal), transform var(--trans-normal);
+}
+
+.kpi-card:hover {
+  box-shadow: var(--sombra-md);
+  transform: translateY(-2px);
+}
+
+/* Franja de color superior */
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--kpi-color, var(--color-AzulClaro));
+}
+
+.kpi-card--eventos   { --kpi-color: var(--color-AzulClaro); }
+.kpi-card--activ     { --kpi-color: var(--color-Morado); }
+.kpi-card--usuarios  { --kpi-color: var(--color-amarilloOscuro); }
+.kpi-card--cupos     { --kpi-color: var(--color-exito); }
+.kpi-card--ocupacion { --kpi-color: var(--color-AzulOscuro); }
+
+.kpi-card__icono {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radio-md);
+  background: rgba(0,0,0,0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+.kpi-card--eventos  .kpi-card__icono { background: rgba(0,106,234,0.10); }
+.kpi-card--activ    .kpi-card__icono { background: rgba(113,44,134,0.10); }
+.kpi-card--usuarios .kpi-card__icono { background: rgba(255,198,62,0.15); }
+.kpi-card--cupos    .kpi-card__icono { background: rgba(22,163,74,0.10); }
+.kpi-card--ocupacion .kpi-card__icono { background: rgba(22,74,152,0.10); }
+
+.kpi-card__numero {
+  font-size: var(--texto-4xl);
+  font-weight: 900;
+  color: var(--texto-primario);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.kpi-card__label {
+  font-size: var(--texto-sm);
+  color: var(--texto-tenue);
+  font-weight: 500;
+}
+
+/* ----------------------------------------------------------------
+   Layout de dos columnas para los paneles de gráficos
+   ---------------------------------------------------------------- */
+.grid-reportes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--espacio-5);
+}
+
+.grid-reportes--asimetrico {
+  grid-template-columns: 3fr 2fr;
+}
+
+/* ----------------------------------------------------------------
+   Gráfico de barras horizontales (CSS puro)
+   ---------------------------------------------------------------- */
+.grafico-barras {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-4);
+}
+
+.barra-item {
+  display: grid;
+  grid-template-columns: 140px 1fr 52px;
+  align-items: center;
+  gap: var(--espacio-3);
+}
+
+.barra-item__etiqueta {
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  color: var(--texto-secundario);
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.barra-item__pista {
+  height: 10px;
+  background: var(--admin-borde);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.barra-item__relleno {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  min-width: 4px;
+}
+
+.barra-item__valor {
+  font-size: var(--texto-xs);
+  font-weight: 800;
+  color: var(--texto-primario);
+  text-align: right;
+}
+
+/* Variantes de color para las barras */
+.barra--azul-oscuro { background: var(--color-AzulOscuro); }
+.barra--azul-claro  { background: var(--color-AzulClaro); }
+.barra--morado      { background: var(--color-Morado); }
+.barra--amarillo    { background: var(--color-amarilloOscuro); }
+.barra--celeste     { background: var(--color-celesteClaro); }
+.barra--exito       { background: var(--color-exito); }
+.barra--error       { background: var(--color-error); }
+
+/* ----------------------------------------------------------------
+   Gráfico de donut CSS (porcentaje circular con conic-gradient)
+   ---------------------------------------------------------------- */
+.donut-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espacio-6);
+  flex-wrap: wrap;
+}
+
+.donut {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  flex-shrink: 0;
+}
+
+.donut__anillo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--donut-color, var(--color-AzulClaro)) 0% var(--donut-pct, 0%),
+    var(--admin-borde) var(--donut-pct, 0%) 100%
+  );
+  transition: --donut-pct 0.8s ease;
+}
+
+/* Agujero central */
+.donut__anillo::after {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  background: var(--superficie-blanca);
+  border-radius: 50%;
+}
+
+.donut__texto {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.donut__porcentaje {
+  font-size: var(--texto-xl);
+  font-weight: 900;
+  color: var(--texto-primario);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.donut__sublabel {
+  font-size: 10px;
+  color: var(--texto-tenue);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+.donut__leyenda {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-3);
+}
+
+.donut__leyenda-item {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-2);
+  font-size: var(--texto-sm);
+  color: var(--texto-secundario);
+}
+
+.donut__leyenda-punto {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.donut__leyenda-valor {
+  margin-left: auto;
+  font-weight: 700;
+  color: var(--texto-primario);
+}
+
+/* ----------------------------------------------------------------
+   Tabla de top eventos (por ocupación)
+   ---------------------------------------------------------------- */
+.top-evento {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-3);
+  padding: var(--espacio-3) 0;
+  border-bottom: 1px solid var(--admin-borde);
+}
+
+.top-evento:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.top-evento__posicion {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-AzulOscuro);
+  color: #fff;
+  font-size: var(--texto-xs);
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.top-evento__posicion--1 { background: #f59e0b; }
+.top-evento__posicion--2 { background: #9ca3af; }
+.top-evento__posicion--3 { background: #b45309; }
+
+.top-evento__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.top-evento__nombre {
+  font-size: var(--texto-sm);
+  font-weight: 700;
+  color: var(--texto-primario);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.top-evento__meta {
+  font-size: var(--texto-xs);
+  color: var(--texto-tenue);
+  margin-top: 1px;
+}
+
+.top-evento__pct {
+  font-size: var(--texto-sm);
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+/* ----------------------------------------------------------------
+   Línea de tiempo de eventos por mes (mini calendar heatmap)
+   ---------------------------------------------------------------- */
+.meses-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--espacio-2);
+  align-items: end;
+}
+
+.mes-columna {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espacio-1);
+}
+
+.mes-barra-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  height: 80px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.mes-barra {
+  width: 100%;
+  max-width: 28px;
+  border-radius: 4px 4px 0 0;
+  background: var(--color-AzulClaro);
+  transition: height 0.6s ease;
+  min-height: 4px;
+}
+
+.mes-barra--vacio {
+  background: var(--admin-borde);
+}
+
+.mes-etiqueta {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--texto-tenue);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.mes-numero {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--color-AzulOscuro);
+}
+
+/* ----------------------------------------------------------------
+   Sección de exportar / acciones
+   ---------------------------------------------------------------- */
+.reportes-acciones {
+  display: flex;
+  gap: var(--espacio-3);
+  flex-wrap: wrap;
+}
+
+/* ----------------------------------------------------------------
+   Responsive
+   ---------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .grid-reportes,
+  .grid-reportes--asimetrico {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-kpi { grid-template-columns: 1fr 1fr; }
+  .barra-item { grid-template-columns: 90px 1fr 40px; }
+  .meses-grid { grid-template-columns: repeat(6, 1fr); }
+  .donut-wrap { flex-direction: column; }
+}
+
+@media (max-width: 480px) {
+  .grid-kpi { grid-template-columns: 1fr; }
+}

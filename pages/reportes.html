@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Reportes · Jouslynia Admin</title>
+
+  <link rel="stylesheet" href="/CSS/styles.css">
+  <link rel="stylesheet" href="/CSS/admin.css">
+  <link rel="stylesheet" href="/CSS/reportes.css">
+</head>
+
+<body class="pagina-admin" id="cuerpo-admin">
+
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"
+       onclick="cerrarSidebarMovil()"></div>
+
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menú de administración"></aside>
+
+  <div class="admin-main">
+
+    <header class="admin-topbar" id="topbar" role="banner"></header>
+
+    <main class="admin-contenido" id="contenido-principal">
+
+      <!-- Cabecera -->
+      <div class="seccion-admin__cabecera">
+        <div>
+          <h1 class="seccion-admin__titulo">Reportes y Estadísticas</h1>
+          <p class="seccion-admin__subtitulo">
+            Última actualización:
+            <span id="reporte-timestamp" style="font-weight:700;color:var(--color-AzulOscuro);">—</span>
+          </p>
+        </div>
+        <div class="reportes-acciones">
+          <button class="btn btn-secundario" onclick="exportarEventosCSV()">⬇ Eventos CSV</button>
+          <button class="btn btn-secundario" onclick="exportarUsuariosCSV()">⬇ Usuarios CSV</button>
+          <button class="btn btn-primario"   onclick="inicializarReportes()">↺ Actualizar</button>
+        </div>
+      </div>
+
+
+      <!-- ========================================================
+           KPI CARDS
+           ======================================================== -->
+      <div class="grid-kpi" role="region" aria-label="Indicadores clave">
+
+        <div class="kpi-card kpi-card--eventos">
+          <div class="kpi-card__icono" aria-hidden="true">🗓️</div>
+          <div>
+            <div class="kpi-card__numero" id="kpi-eventos">–</div>
+            <div class="kpi-card__label">Eventos activos</div>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-card--activ">
+          <div class="kpi-card__icono" aria-hidden="true">📋</div>
+          <div>
+            <div class="kpi-card__numero" id="kpi-actividades">–</div>
+            <div class="kpi-card__label">Actividades en agenda</div>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-card--usuarios">
+          <div class="kpi-card__icono" aria-hidden="true">👥</div>
+          <div>
+            <div class="kpi-card__numero" id="kpi-usuarios">–</div>
+            <div class="kpi-card__label">Usuarios registrados</div>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-card--cupos">
+          <div class="kpi-card__icono" aria-hidden="true">🎟️</div>
+          <div>
+            <div class="kpi-card__numero" id="kpi-cupos">–</div>
+            <div class="kpi-card__label">Cupos disponibles</div>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-card--ocupacion">
+          <div class="kpi-card__icono" aria-hidden="true">📊</div>
+          <div>
+            <div class="kpi-card__numero" id="kpi-ocupacion">–</div>
+            <div class="kpi-card__label">Ocupación promedio</div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- ========================================================
+           FILA 1: CATEGORÍAS + OCUPACIÓN POR EVENTO
+           ======================================================== -->
+      <div class="grid-reportes" role="region" aria-label="Gráficos de eventos">
+
+        <!-- Barras: eventos por categoría -->
+        <div class="panel-card">
+          <div class="panel-card__cabecera">
+            <div>
+              <div class="panel-card__titulo">Distribución por categoría</div>
+              <div class="panel-card__subtitulo">Número de eventos activos por tipo</div>
+            </div>
+          </div>
+          <div class="panel-card__cuerpo">
+            <div class="grafico-barras" id="grafico-categorias" aria-label="Gráfico de categorías">
+              <p style="color:var(--texto-tenue);font-size:var(--texto-sm);">Cargando…</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barras: top eventos por ocupación -->
+        <div class="panel-card">
+          <div class="panel-card__cabecera">
+            <div>
+              <div class="panel-card__titulo">Ocupación por evento</div>
+              <div class="panel-card__subtitulo">% de cupos ocupados (top 5)</div>
+            </div>
+          </div>
+          <div class="panel-card__cuerpo">
+            <div class="grafico-barras" id="grafico-ocupacion" aria-label="Gráfico de ocupación">
+              <p style="color:var(--texto-tenue);font-size:var(--texto-sm);">Cargando…</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- ========================================================
+           FILA 2: DONUTS + TOP EVENTOS
+           ======================================================== -->
+      <div class="grid-reportes grid-reportes--asimetrico" role="region" aria-label="Estadísticas detalladas">
+
+        <!-- Donuts: ocupación global y roles -->
+        <div class="panel-card">
+          <div class="panel-card__cabecera">
+            <div class="panel-card__titulo">Métricas globales</div>
+          </div>
+          <div class="panel-card__cuerpo">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;">
+
+              <!-- Donut ocupación -->
+              <div>
+                <p style="font-size:var(--texto-xs);font-weight:700;color:var(--texto-tenue);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem;">
+                  Ocupación global de cupos
+                </p>
+                <div class="donut-wrap">
+                  <div class="donut" aria-label="Ocupación global">
+                    <div class="donut__anillo" id="donut-ocupacion"
+                         style="--donut-pct:0%;--donut-color:var(--color-AzulClaro);">
+                    </div>
+                    <div class="donut__texto">
+                      <span class="donut__porcentaje" id="donut-ocupacion-pct">0%</span>
+                      <span class="donut__sublabel">Ocupado</span>
+                    </div>
+                  </div>
+                  <div class="donut__leyenda">
+                    <div class="donut__leyenda-item">
+                      <div class="donut__leyenda-punto" style="background:var(--color-AzulClaro);"></div>
+                      <span>Ocupados</span>
+                      <span class="donut__leyenda-valor" id="leyenda-ocupados">–</span>
+                    </div>
+                    <div class="donut__leyenda-item">
+                      <div class="donut__leyenda-punto" style="background:var(--admin-borde);"></div>
+                      <span>Libres</span>
+                      <span class="donut__leyenda-valor" id="leyenda-libres">–</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Donut roles -->
+              <div>
+                <p style="font-size:var(--texto-xs);font-weight:700;color:var(--texto-tenue);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem;">
+                  Distribución de roles
+                </p>
+                <div class="donut-wrap">
+                  <div class="donut" aria-label="Distribución de roles">
+                    <div class="donut__anillo" id="donut-roles"
+                         style="--donut-pct:0%;--donut-color:var(--color-Morado);">
+                    </div>
+                    <div class="donut__texto">
+                      <span class="donut__porcentaje" id="donut-roles-pct">0%</span>
+                      <span class="donut__sublabel">Admins</span>
+                    </div>
+                  </div>
+                  <div class="donut__leyenda">
+                    <div class="donut__leyenda-item">
+                      <div class="donut__leyenda-punto" style="background:var(--color-Morado);"></div>
+                      <span>Admins</span>
+                      <span class="donut__leyenda-valor" id="leyenda-admins">–</span>
+                    </div>
+                    <div class="donut__leyenda-item">
+                      <div class="donut__leyenda-punto" style="background:var(--color-celesteClaro);"></div>
+                      <span>Asistentes</span>
+                      <span class="donut__leyenda-valor" id="leyenda-asistentes">–</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Top 5 eventos por ocupación -->
+        <div class="panel-card">
+          <div class="panel-card__cabecera">
+            <div>
+              <div class="panel-card__titulo">🏆 Top eventos</div>
+              <div class="panel-card__subtitulo">Por % de ocupación</div>
+            </div>
+          </div>
+          <div class="panel-card__cuerpo" style="padding-block:0;">
+            <div id="lista-top-eventos" aria-label="Top 5 eventos más concurridos">
+              <p style="color:var(--texto-tenue);font-size:var(--texto-sm);padding:1rem 0;">Cargando…</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- ========================================================
+           FILA 3: DISTRIBUCIÓN POR MES
+           ======================================================== -->
+      <div class="panel-card" role="region" aria-label="Distribución de eventos por mes">
+        <div class="panel-card__cabecera">
+          <div>
+            <div class="panel-card__titulo">Eventos por mes</div>
+            <div class="panel-card__subtitulo">Distribución de eventos activos en el año</div>
+          </div>
+        </div>
+        <div class="panel-card__cuerpo">
+          <div class="meses-grid" id="grafico-meses" aria-label="Gráfico de eventos por mes">
+            <p style="grid-column:1/-1;color:var(--texto-tenue);font-size:var(--texto-sm);">Cargando…</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="toast-contenedor" id="toast-contenedor" aria-live="assertive" aria-atomic="false"></div>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/admin.js"></script>
+  <script src="../js/reportes.js"></script>
+  <script src="../js/sidebar.js"></script>
+  <script src="../js/init-reportes.js"></script>
+
+</body>
+</html>

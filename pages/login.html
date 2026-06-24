@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Inicia sesión en Jouslynia para gestionar los eventos de CENFOTEC.">
+  <meta name="robots" content="noindex">
+  <title>Iniciar sesión · Jouslynia CENFOTEC</title>
+
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/auth.css">
+</head>
+
+<body>
+
+  <div class="auth-layout">
+
+    <!-- Panel decorativo izquierdo -->
+    <aside class="auth-panel-deco auth-panel-deco--azul" aria-hidden="true">
+
+      <div class="deco-logo">
+        <div class="deco-logo__icono">J</div>
+        <div>
+          <div class="deco-logo__nombre">Jouslynia</div>
+          <div class="deco-logo__sub">CENFOTEC Eventos</div>
+        </div>
+      </div>
+
+      <div class="deco-contenido">
+        <h2 class="deco-contenido__titulo">
+          Gestiona los eventos<br>de <span>CENFOTEC</span><br>con precisión
+        </h2>
+        <p class="deco-contenido__texto">
+          El panel de administración te da control total sobre eventos,
+          actividades y usuarios en un solo lugar.
+        </p>
+      </div>
+
+      <div class="deco-metricas">
+        <div>
+          <div class="deco-metrica__numero">6+</div>
+          <div class="deco-metrica__label">Eventos activos</div>
+        </div>
+        <div>
+          <div class="deco-metrica__numero">300+</div>
+          <div class="deco-metrica__label">Asistentes</div>
+        </div>
+        <div>
+          <div class="deco-metrica__numero">10+</div>
+          <div class="deco-metrica__label">Actividades</div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- Columna del formulario -->
+    <main class="auth-formulario-col" id="contenido-principal">
+      <div class="auth-caja">
+
+        <a href="../index.html" class="auth-volver">← Volver al inicio</a>
+
+        <div class="auth-caja__cabecera">
+          <h1 class="auth-caja__titulo">Bienvenido/a 👋</h1>
+          <p class="auth-caja__subtitulo">Ingresa tus credenciales para continuar.</p>
+        </div>
+
+        <!-- Alerta global -->
+        <div class="alerta-form alerta-form--error" id="alerta-error" role="alert" aria-live="assertive">
+          <span aria-hidden="true">❌</span>
+          <span id="alerta-error-texto">Error de autenticación.</span>
+        </div>
+
+        <form class="auth-form" id="form-login" novalidate>
+
+          <div class="campo-form">
+            <label class="campo-form__etiqueta" for="correo">
+              Correo electrónico <span>*</span>
+            </label>
+            <div class="campo-icono">
+              <span class="campo-icono__ico" aria-hidden="true">✉️</span>
+              <input type="email" id="correo" name="correo"
+                     class="campo-form__control campo-icono__control"
+                     placeholder="nombre@cenfotec.ac.cr"
+                     autocomplete="email" inputmode="email"
+                     required aria-required="true" aria-describedby="error-correo">
+            </div>
+            <span class="campo-form__error campo-error-msg" id="error-correo" role="alert" style="display:none;"></span>
+          </div>
+
+          <div class="campo-form">
+            <label class="campo-form__etiqueta" for="contrasena">
+              Contraseña <span>*</span>
+            </label>
+            <div class="campo-icono campo-pass">
+              <span class="campo-icono__ico" aria-hidden="true">🔒</span>
+              <input type="password" id="contrasena" name="contrasena"
+                     class="campo-form__control campo-icono__control campo-pass__control"
+                     placeholder="Tu contraseña"
+                     autocomplete="current-password"
+                     required aria-required="true" aria-describedby="error-contrasena">
+              <button type="button" class="campo-pass__toggle" id="toggle-pass"
+                      aria-label="Mostrar contraseña">👁️</button>
+            </div>
+            <span class="campo-form__error campo-error-msg" id="error-contrasena" role="alert" style="display:none;"></span>
+          </div>
+
+          <div class="auth-opciones">
+            <label class="auth-opciones__checkbox">
+              <input type="checkbox" id="recordar" name="recordar">
+              Recordar sesión
+            </label>
+            <a href="#" class="auth-opciones__link" id="enlace-recuperar">
+              ¿Olvidaste la contraseña?
+            </a>
+          </div>
+
+          <button type="submit" class="btn btn-primario btn-bloque btn-lg" id="btn-ingresar">
+            Ingresar
+          </button>
+
+        </form>
+
+        <div class="demo-credenciales" role="note">
+          <div class="demo-credenciales__titulo">🔑 Credenciales de demostración</div>
+          <div><strong>Admin:</strong> admin@cenfotec.ac.cr / admin123</div>
+          <button type="button" class="demo-credenciales__rellenar" id="btn-demo">
+            ↓ Usar estas credenciales
+          </button>
+        </div>
+
+        <div class="auth-caja__pie">
+          ¿No tienes cuenta? <a href="registro.html">Crea una gratis →</a>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <div class="toast-contenedor" id="toast-contenedor" aria-live="assertive" aria-atomic="false"></div>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/login.js"></script>
+
+</body>
+</html>

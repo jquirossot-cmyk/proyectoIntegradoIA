@@ -1,0 +1,489 @@
+/* ================================================================
+   JOUSLYNIA — Sistema de Gestión de Eventos · Universidad CENFOTEC
+   /css/auth.css — Estilos de las páginas de autenticación
+   Depende de: styles.css (debe cargarse primero)
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Layout principal de autenticación (dos columnas)
+   ---------------------------------------------------------------- */
+.auth-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* ----------------------------------------------------------------
+   Panel decorativo izquierdo (login)
+   ---------------------------------------------------------------- */
+.auth-panel-deco {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--espacio-10);
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-panel-deco--azul {
+  background: linear-gradient(155deg,
+    var(--color-AzulOscuro) 0%, #1a2e6e 45%, var(--color-Morado) 100%);
+}
+
+.auth-panel-deco--morado {
+  background: linear-gradient(155deg,
+    var(--color-Morado) 0%, #2d1b6b 45%, var(--color-AzulOscuro) 100%);
+}
+
+/* Círculos decorativos de fondo */
+.auth-panel-deco::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -15%;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.auth-panel-deco::after {
+  content: '';
+  position: absolute;
+  bottom: -15%;
+  left: -10%;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,242,0,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------------
+   Logo dentro del panel decorativo
+   ---------------------------------------------------------------- */
+.deco-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-3);
+  position: relative;
+  z-index: 1;
+}
+
+.deco-logo__icono {
+  width: 44px;
+  height: 44px;
+  background: rgba(255,255,255,0.14);
+  border-radius: var(--radio-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.20);
+}
+
+.deco-logo__nombre {
+  font-size: var(--texto-xl);
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.deco-logo__sub {
+  font-size: var(--texto-xs);
+  color: rgba(255,255,255,0.50);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ----------------------------------------------------------------
+   Contenido central del panel (título + texto)
+   ---------------------------------------------------------------- */
+.deco-contenido {
+  position: relative;
+  z-index: 1;
+}
+
+.deco-contenido__titulo {
+  font-size: clamp(var(--texto-2xl), 3vw, var(--texto-4xl));
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin-bottom: var(--espacio-4);
+}
+
+.deco-contenido__titulo span {
+  color: var(--color-amarilloClaro);
+}
+
+.deco-contenido__texto {
+  font-size: var(--texto-base);
+  color: rgba(255,255,255,0.70);
+  line-height: 1.7;
+  max-width: 380px;
+}
+
+/* ----------------------------------------------------------------
+   Métricas decorativas (login)
+   ---------------------------------------------------------------- */
+.deco-metricas {
+  display: flex;
+  gap: var(--espacio-8);
+  position: relative;
+  z-index: 1;
+}
+
+.deco-metrica__numero {
+  font-size: var(--texto-2xl);
+  font-weight: 900;
+  color: var(--color-amarilloClaro);
+  line-height: 1;
+}
+
+.deco-metrica__label {
+  font-size: var(--texto-xs);
+  color: rgba(255,255,255,0.50);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-top: 2px;
+  font-weight: 600;
+}
+
+/* ----------------------------------------------------------------
+   Beneficios (registro)
+   ---------------------------------------------------------------- */
+.deco-beneficios {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-3);
+}
+
+.deco-beneficio {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-3);
+  font-size: var(--texto-sm);
+  color: rgba(255,255,255,0.80);
+}
+
+.deco-beneficio__ico {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* ----------------------------------------------------------------
+   Columna del formulario
+   ---------------------------------------------------------------- */
+.auth-formulario-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--espacio-10) var(--espacio-8);
+  background: var(--superficie-blanca);
+  overflow-y: auto;
+}
+
+.auth-caja {
+  width: 100%;
+  max-width: 440px;
+}
+
+.auth-caja__cabecera {
+  margin-bottom: var(--espacio-8);
+}
+
+.auth-caja__titulo {
+  font-size: var(--texto-3xl);
+  font-weight: 900;
+  color: var(--texto-primario);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.auth-caja__subtitulo {
+  font-size: var(--texto-base);
+  color: var(--texto-tenue);
+  margin-top: var(--espacio-2);
+}
+
+.auth-caja__pie {
+  text-align: center;
+  font-size: var(--texto-sm);
+  color: var(--texto-tenue);
+  margin-top: var(--espacio-5);
+}
+
+.auth-caja__pie a {
+  font-weight: 700;
+  color: var(--color-AzulClaro);
+}
+
+/* ----------------------------------------------------------------
+   Enlace de retorno
+   ---------------------------------------------------------------- */
+.auth-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--texto-sm);
+  color: var(--texto-tenue);
+  font-weight: 600;
+  margin-bottom: var(--espacio-6);
+  text-decoration: none;
+  transition: color var(--trans-rapida);
+}
+
+.auth-volver:hover { color: var(--color-AzulClaro); }
+
+/* ----------------------------------------------------------------
+   Formulario de autenticación
+   ---------------------------------------------------------------- */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-5);
+}
+
+/* Campo con ícono a la izquierda */
+.campo-icono {
+  position: relative;
+}
+
+.campo-icono__control {
+  padding-left: 2.6rem;
+}
+
+.campo-icono__ico {
+  position: absolute;
+  left: 0.875rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.95rem;
+  color: var(--texto-tenue);
+  pointer-events: none;
+  transition: color var(--trans-rapida);
+}
+
+.campo-icono:focus-within .campo-icono__ico {
+  color: var(--color-AzulClaro);
+}
+
+/* Campo de contraseña con botón toggle */
+.campo-pass {
+  position: relative;
+}
+
+.campo-pass__control {
+  padding-right: 3rem;
+}
+
+.campo-pass__toggle {
+  position: absolute;
+  right: 0.875rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--texto-tenue);
+  padding: var(--espacio-1);
+  border-radius: var(--radio-sm);
+  transition: color var(--trans-rapida);
+  line-height: 1;
+}
+
+.campo-pass__toggle:hover { color: var(--color-AzulClaro); }
+
+/* Grilla de dos columnas para nombre + apellido */
+.campos-fila {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--espacio-4);
+}
+
+/* Fila de opciones (recordar / olvidé) */
+.auth-opciones {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espacio-3);
+}
+
+.auth-opciones__checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-2);
+  font-size: var(--texto-sm);
+  color: var(--texto-secundario);
+  cursor: pointer;
+  user-select: none;
+}
+
+.auth-opciones__checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-AzulClaro);
+  cursor: pointer;
+}
+
+.auth-opciones__link {
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  color: var(--color-AzulClaro);
+}
+
+/* Términos y condiciones */
+.campo-terminos {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espacio-3);
+  font-size: var(--texto-sm);
+  color: var(--texto-secundario);
+  cursor: pointer;
+  user-select: none;
+}
+
+.campo-terminos input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  accent-color: var(--color-AzulClaro);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.campo-terminos a {
+  color: var(--color-AzulClaro);
+  font-weight: 600;
+}
+
+/* ----------------------------------------------------------------
+   Alerta global del formulario (error / éxito)
+   ---------------------------------------------------------------- */
+.alerta-form {
+  display: none;
+  align-items: center;
+  gap: var(--espacio-3);
+  padding: var(--espacio-3) var(--espacio-4);
+  border-radius: var(--radio-md);
+  font-size: var(--texto-sm);
+  font-weight: 500;
+  animation: aparecer-alerta 0.2s ease;
+}
+
+@keyframes aparecer-alerta {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.alerta-form--visible { display: flex; }
+
+.alerta-form--error {
+  background: rgba(220,38,38,0.07);
+  border: 1px solid rgba(220,38,38,0.25);
+  color: #b91c1c;
+}
+
+.alerta-form--exito {
+  background: rgba(22,163,74,0.07);
+  border: 1px solid rgba(22,163,74,0.25);
+  color: #15803d;
+}
+
+/* ----------------------------------------------------------------
+   Medidor de fortaleza de contraseña
+   ---------------------------------------------------------------- */
+.medidor-fortaleza {
+  margin-top: var(--espacio-2);
+}
+
+.medidor-fortaleza__pista {
+  height: 4px;
+  background: var(--borde-suave);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.medidor-fortaleza__relleno {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease, background 0.4s ease;
+  width: 0;
+}
+
+.medidor-fortaleza__etiqueta {
+  font-size: var(--texto-xs);
+  font-weight: 600;
+  margin-top: 4px;
+  transition: color 0.3s ease;
+}
+
+/* ----------------------------------------------------------------
+   Demo de credenciales (login)
+   ---------------------------------------------------------------- */
+.demo-credenciales {
+  background: rgba(0,106,234,0.05);
+  border: 1.5px dashed rgba(0,106,234,0.25);
+  border-radius: var(--radio-md);
+  padding: var(--espacio-4);
+  font-size: var(--texto-xs);
+  color: var(--texto-secundario);
+}
+
+.demo-credenciales strong {
+  color: var(--color-AzulOscuro);
+  font-weight: 700;
+}
+
+.demo-credenciales__titulo {
+  font-weight: 700;
+  color: var(--color-AzulClaro);
+  margin-bottom: var(--espacio-2);
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-2);
+}
+
+.demo-credenciales__rellenar {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: var(--espacio-2);
+  font-size: var(--texto-xs);
+  color: var(--color-AzulClaro);
+  font-weight: 700;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 3px 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ----------------------------------------------------------------
+   Responsive de autenticación
+   ---------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .auth-panel-deco { display: none; }
+  .auth-layout     { grid-template-columns: 1fr; }
+  .auth-formulario-col { padding: var(--espacio-8) var(--espacio-5); }
+}
+
+@media (max-width: 480px) {
+  .auth-formulario-col { padding: var(--espacio-6) var(--espacio-4); }
+  .campos-fila         { grid-template-columns: 1fr; }
+}

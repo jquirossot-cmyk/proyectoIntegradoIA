@@ -1,0 +1,1292 @@
+/* ================================================================
+   JOUSLYNIA — Sistema de Gestión de Eventos · Universidad CENFOTEC
+   /css/admin.css — Estilos exclusivos del panel de administración
+   ================================================================
+   Depende de: styles.css (variables :root, reset y utilidades base)
+   Importar DESPUÉS de styles.css en cada página de admin.
+   ================================================================ */
+
+
+/* ================================================================
+   1. VARIABLES LOCALES DEL PANEL
+   ================================================================ */
+:root {
+  /* Dimensiones del sidebar */
+  --sidebar-ancho:        260px;
+  --sidebar-ancho-col:    72px;   /* modo colapsado (solo iconos) */
+
+  /* Colores específicos del admin */
+  --admin-fondo:          #f0f3fb;
+  --admin-sidebar-fondo:  var(--color-AzulOscuro);
+  --admin-sidebar-texto:  rgba(255,255,255,0.75);
+  --admin-sidebar-activo: rgba(255,255,255,0.12);
+  --admin-topbar-fondo:   #ffffff;
+  --admin-borde:          #e2e8f4;
+
+  /* Alto del topbar del admin */
+  --admin-topbar-alto:    64px;
+}
+
+
+/* ================================================================
+   2. LAYOUT BASE DEL PANEL
+   ================================================================ */
+
+/* Body en páginas admin: sin scroll horizontal */
+.pagina-admin {
+  display: flex;
+  min-height: 100vh;
+  background: var(--admin-fondo);
+  font-family: var(--fuente-cuerpo);
+  color: var(--texto-primario);
+}
+
+/* Área de contenido principal (todo lo que no es el sidebar) */
+.admin-main {
+  flex: 1;
+  margin-left: var(--sidebar-ancho);
+  min-width: 0;          /* evita desbordamiento en flex */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: margin-left var(--trans-normal);
+}
+
+/* Cuando el sidebar está colapsado */
+.pagina-admin.sidebar-colapsado .admin-main {
+  margin-left: var(--sidebar-ancho-col);
+}
+
+
+/* ================================================================
+   3. SIDEBAR
+   ================================================================ */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-ancho);
+  height: 100vh;
+  background: var(--admin-sidebar-fondo);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 200;
+  transition: width var(--trans-normal), transform var(--trans-normal);
+  box-shadow: 4px 0 24px rgba(22,74,152,0.15);
+
+  /* Scrollbar discreta */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.12) transparent;
+}
+
+.sidebar::-webkit-scrollbar       { width: 4px; }
+.sidebar::-webkit-scrollbar-track  { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb  { background: rgba(255,255,255,0.15); border-radius: 4px; }
+
+/* Sidebar colapsado (solo iconos) */
+.pagina-admin.sidebar-colapsado .sidebar {
+  width: var(--sidebar-ancho-col);
+}
+
+/* ---- Cabecera del sidebar ---- */
+.sidebar__cabecera {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-3);
+  padding: var(--espacio-5) var(--espacio-5);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  min-height: var(--admin-topbar-alto);
+  flex-shrink: 0;
+}
+
+.sidebar__logo-icono {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radio-md);
+  background: rgba(255,255,255,0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #ffffff;
+  flex-shrink: 0;
+  letter-spacing: -0.04em;
+  transition: background var(--trans-rapida);
+}
+
+.sidebar__logo-icono:hover { background: rgba(255,255,255,0.22); }
+
+.sidebar__logo-textos {
+  overflow: hidden;
+  transition: opacity var(--trans-normal), width var(--trans-normal);
+}
+
+.sidebar__logo-nombre {
+  font-size: var(--texto-base);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.sidebar__logo-sub {
+  font-size: var(--texto-xs);
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Ocultar textos cuando el sidebar está colapsado */
+.pagina-admin.sidebar-colapsado .sidebar__logo-textos,
+.pagina-admin.sidebar-colapsado .nav-seccion__etiqueta,
+.pagina-admin.sidebar-colapsado .nav-enlace__texto,
+.pagina-admin.sidebar-colapsado .nav-enlace__badge,
+.pagina-admin.sidebar-colapsado .sidebar__usuario-info {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Botón de colapsar sidebar */
+.sidebar__btn-colapsar {
+  margin-left: auto;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radio-sm);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.65);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all var(--trans-rapida);
+  flex-shrink: 0;
+}
+
+.sidebar__btn-colapsar:hover {
+  background: rgba(255,255,255,0.18);
+  color: #ffffff;
+}
+
+/* ---- Perfil del admin en sidebar ---- */
+.sidebar__usuario {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-3);
+  padding: var(--espacio-4) var(--espacio-5);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+.sidebar__usuario-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-AzulClaro), var(--color-Morado));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #ffffff;
+  font-size: var(--texto-sm);
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+.sidebar__usuario-info { overflow: hidden; }
+
+.sidebar__usuario-nombre {
+  font-size: var(--texto-sm);
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar__usuario-rol {
+  font-size: var(--texto-xs);
+  color: var(--color-celesteClaro);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+/* ---- Navegación del sidebar ---- */
+.sidebar__nav {
+  flex: 1;
+  padding: var(--espacio-4) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+}
+
+/* Grupo de sección con etiqueta */
+.nav-seccion {
+  margin-bottom: var(--espacio-1);
+}
+
+.nav-seccion__etiqueta {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.30);
+  padding: var(--espacio-3) var(--espacio-5) var(--espacio-1);
+  white-space: nowrap;
+  overflow: hidden;
+  transition: opacity var(--trans-normal);
+}
+
+/* Enlace de navegación */
+.nav-enlace {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-3);
+  padding: 0.6rem var(--espacio-5);
+  color: var(--admin-sidebar-texto);
+  font-size: var(--texto-sm);
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: all var(--trans-rapida);
+  text-decoration: none;
+  white-space: nowrap;
+  position: relative;
+}
+
+.nav-enlace:hover {
+  background: rgba(255,255,255,0.07);
+  color: #ffffff;
+  border-left-color: var(--color-celesteClaro);
+}
+
+/* Estado activo */
+.nav-enlace--activo {
+  background: var(--admin-sidebar-activo);
+  color: #ffffff;
+  font-weight: 700;
+  border-left-color: var(--color-amarilloClaro);
+}
+
+.nav-enlace__icono {
+  font-size: 1.05rem;
+  width: 22px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.nav-enlace__texto {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: opacity var(--trans-normal);
+}
+
+.nav-enlace__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--radio-full);
+  background: var(--color-amarilloClaro);
+  color: var(--color-AzulOscuro);
+  font-size: 10px;
+  font-weight: 800;
+  flex-shrink: 0;
+  transition: opacity var(--trans-normal);
+}
+
+/* Tooltip en modo colapsado */
+.pagina-admin.sidebar-colapsado .nav-enlace {
+  justify-content: center;
+  padding-inline: 0;
+  border-left: none;
+  border-right: 3px solid transparent;
+  position: relative;
+}
+
+.pagina-admin.sidebar-colapsado .nav-enlace--activo {
+  border-right-color: var(--color-amarilloClaro);
+}
+
+/* ---- Pie del sidebar ---- */
+.sidebar__pie {
+  padding: var(--espacio-4) var(--espacio-5);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+.btn-cerrar-sesion {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-3);
+  width: 100%;
+  padding: var(--espacio-3);
+  border-radius: var(--radio-md);
+  background: rgba(220,38,38,0.10);
+  border: 1px solid rgba(220,38,38,0.18);
+  color: #fca5a5;
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--trans-rapida);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.btn-cerrar-sesion:hover {
+  background: rgba(220,38,38,0.22);
+  color: #ffffff;
+}
+
+.pagina-admin.sidebar-colapsado .btn-cerrar-sesion {
+  justify-content: center;
+  padding: var(--espacio-3) 0;
+}
+
+
+/* ================================================================
+   4. TOPBAR DEL ADMIN
+   ================================================================ */
+
+.admin-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--admin-topbar-alto);
+  background: var(--admin-topbar-fondo);
+  border-bottom: 1px solid var(--admin-borde);
+  display: flex;
+  align-items: center;
+  padding-inline: var(--espacio-6);
+  gap: var(--espacio-4);
+  box-shadow: 0 1px 4px rgba(22,74,152,0.06);
+  flex-shrink: 0;
+}
+
+/* Migas de pan / título de página */
+.topbar__titulo {
+  flex: 1;
+  min-width: 0;
+}
+
+.topbar__pagina-actual {
+  font-size: var(--texto-lg);
+  font-weight: 700;
+  color: var(--texto-primario);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topbar__migas {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-2);
+  font-size: var(--texto-xs);
+  color: var(--texto-tenue);
+  margin-top: 1px;
+}
+
+.topbar__migas a {
+  color: var(--color-AzulClaro);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.topbar__migas a:hover { text-decoration: underline; }
+.topbar__migas-sep { color: var(--texto-tenue); }
+
+/* Buscador de la topbar */
+.topbar__buscador {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-2);
+  background: var(--superficie-pagina);
+  border: 1.5px solid var(--admin-borde);
+  border-radius: var(--radio-full);
+  padding: 0.375rem 0.875rem;
+  transition: border-color var(--trans-rapida);
+}
+
+.topbar__buscador:focus-within {
+  border-color: var(--color-AzulClaro);
+  background: #ffffff;
+}
+
+.topbar__buscador-icono { color: var(--texto-tenue); font-size: 0.85rem; }
+
+.topbar__buscador-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: var(--texto-sm);
+  color: var(--texto-primario);
+  width: 180px;
+}
+
+.topbar__buscador-input::placeholder { color: var(--texto-tenue); }
+
+/* Acciones de la topbar (notificaciones, perfil) */
+.topbar__acciones {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-3);
+}
+
+/* Botón de icono en topbar */
+.topbar__btn-icono {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--superficie-pagina);
+  border: 1.5px solid var(--admin-borde);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all var(--trans-rapida);
+  color: var(--texto-secundario);
+  flex-shrink: 0;
+}
+
+.topbar__btn-icono:hover {
+  background: var(--color-AzulOscuro);
+  border-color: var(--color-AzulOscuro);
+  color: #ffffff;
+}
+
+/* Indicador de notificaciones */
+.topbar__btn-icono .badge-notif {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-error);
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--admin-topbar-fondo);
+}
+
+/* Perfil en la topbar */
+.topbar__perfil {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-2);
+  padding: var(--espacio-2) var(--espacio-3);
+  border-radius: var(--radio-full);
+  background: var(--superficie-pagina);
+  border: 1.5px solid var(--admin-borde);
+  cursor: pointer;
+  transition: all var(--trans-rapida);
+  text-decoration: none;
+}
+
+.topbar__perfil:hover {
+  border-color: var(--color-AzulClaro);
+  background: rgba(0,106,234,0.04);
+}
+
+.topbar__perfil-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-AzulClaro), var(--color-Morado));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #ffffff;
+  font-size: var(--texto-xs);
+  flex-shrink: 0;
+}
+
+.topbar__perfil-nombre {
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  color: var(--texto-primario);
+  white-space: nowrap;
+}
+
+/* Botón hamburguesa para abrir sidebar en móvil */
+.topbar__btn-menu {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: var(--espacio-2);
+  border-radius: var(--radio-sm);
+  background: var(--superficie-pagina);
+  border: 1.5px solid var(--admin-borde);
+  cursor: pointer;
+}
+
+.topbar__btn-menu span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--texto-primario);
+  border-radius: 2px;
+  transition: all var(--trans-normal);
+}
+
+
+/* ================================================================
+   5. ÁREA DE CONTENIDO DEL PANEL
+   ================================================================ */
+
+.admin-contenido {
+  flex: 1;
+  padding: var(--espacio-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-6);
+  overflow-x: hidden;
+}
+
+/* Cabecera interna de sección */
+.seccion-admin__cabecera {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--espacio-4);
+  flex-wrap: wrap;
+}
+
+.seccion-admin__titulo {
+  font-size: var(--texto-2xl);
+  font-weight: 800;
+  color: var(--texto-primario);
+  letter-spacing: -0.025em;
+}
+
+.seccion-admin__subtitulo {
+  font-size: var(--texto-sm);
+  color: var(--texto-tenue);
+  margin-top: var(--espacio-1);
+}
+
+.seccion-admin__acciones {
+  display: flex;
+  gap: var(--espacio-3);
+  flex-wrap: wrap;
+}
+
+
+/* ================================================================
+   6. TARJETAS DE ESTADÍSTICAS (DASHBOARD)
+   ================================================================ */
+
+.grid-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--espacio-4);
+}
+
+/* Tarjeta de estadística */
+.stat-card {
+  background: var(--superficie-blanca);
+  border: 1px solid var(--admin-borde);
+  border-radius: var(--radio-lg);
+  padding: var(--espacio-5);
+  display: flex;
+  gap: var(--espacio-4);
+  align-items: flex-start;
+  transition: box-shadow var(--trans-normal), transform var(--trans-normal);
+  box-shadow: var(--sombra-xs);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--stat-acento, var(--color-AzulClaro));
+  border-radius: 0 2px 2px 0;
+}
+
+.stat-card:hover {
+  box-shadow: var(--sombra-md);
+  transform: translateY(-2px);
+}
+
+/* Variantes de acento por tipo de stat */
+.stat-card--eventos    { --stat-acento: var(--color-AzulClaro); }
+.stat-card--usuarios   { --stat-acento: var(--color-Morado); }
+.stat-card--actividades{ --stat-acento: var(--color-amarilloOscuro); }
+.stat-card--cupos      { --stat-acento: var(--color-exito); }
+.stat-card--reportes   { --stat-acento: var(--color-AzulOscuro); }
+
+.stat-card__icono {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radio-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  background: rgba(0,0,0,0.04);
+}
+
+.stat-card--eventos     .stat-card__icono { background: rgba(0,106,234,0.10); }
+.stat-card--usuarios    .stat-card__icono { background: rgba(113,44,134,0.10); }
+.stat-card--actividades .stat-card__icono { background: rgba(255,198,62,0.15); }
+.stat-card--cupos       .stat-card__icono { background: rgba(22,163,74,0.10); }
+.stat-card--reportes    .stat-card__icono { background: rgba(22,74,152,0.10); }
+
+.stat-card__datos { flex: 1; min-width: 0; }
+
+.stat-card__numero {
+  font-size: var(--texto-4xl);
+  font-weight: 900;
+  color: var(--texto-primario);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.stat-card__etiqueta {
+  font-size: var(--texto-sm);
+  color: var(--texto-tenue);
+  font-weight: 500;
+  margin-top: var(--espacio-1);
+}
+
+.stat-card__cambio {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  margin-top: var(--espacio-2);
+  padding: 2px 8px;
+  border-radius: var(--radio-full);
+}
+
+.stat-card__cambio--positivo {
+  background: rgba(22,163,74,0.10);
+  color: var(--color-exito);
+}
+
+.stat-card__cambio--neutro {
+  background: rgba(156,200,255,0.20);
+  color: var(--color-AzulOscuro);
+}
+
+
+/* ================================================================
+   7. TARJETAS DE PANEL GENÉRICAS
+   ================================================================ */
+
+.panel-card {
+  background: var(--superficie-blanca);
+  border: 1px solid var(--admin-borde);
+  border-radius: var(--radio-lg);
+  box-shadow: var(--sombra-xs);
+  overflow: hidden;
+}
+
+.panel-card__cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espacio-4);
+  padding: var(--espacio-5) var(--espacio-6);
+  border-bottom: 1px solid var(--admin-borde);
+}
+
+.panel-card__titulo {
+  font-size: var(--texto-base);
+  font-weight: 700;
+  color: var(--texto-primario);
+}
+
+.panel-card__subtitulo {
+  font-size: var(--texto-xs);
+  color: var(--texto-tenue);
+  margin-top: 2px;
+}
+
+.panel-card__cuerpo {
+  padding: var(--espacio-5) var(--espacio-6);
+}
+
+/* Layout de dos columnas para el dashboard */
+.grid-dashboard {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--espacio-5);
+}
+
+
+/* ================================================================
+   8. TABLAS DE DATOS
+   ================================================================ */
+
+.tabla-contenedor {
+  overflow-x: auto;
+  border-radius: 0 0 var(--radio-lg) var(--radio-lg);
+  /* Scrollbar discreta */
+  scrollbar-width: thin;
+  scrollbar-color: var(--borde-medio) transparent;
+}
+
+.tabla-admin {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--texto-sm);
+  white-space: nowrap;
+}
+
+/* Encabezado de tabla */
+.tabla-admin thead tr {
+  background: var(--admin-fondo);
+}
+
+.tabla-admin th {
+  padding: var(--espacio-3) var(--espacio-5);
+  text-align: left;
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  color: var(--texto-tenue);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--admin-borde);
+  white-space: nowrap;
+  user-select: none;
+  cursor: pointer;
+  transition: color var(--trans-rapida);
+}
+
+.tabla-admin th:hover { color: var(--color-AzulClaro); }
+
+/* Indicador de ordenación */
+.tabla-admin th[data-orden]::after {
+  content: ' ↕';
+  opacity: 0.35;
+}
+
+.tabla-admin th[data-orden="asc"]::after  { content: ' ↑'; opacity: 1; color: var(--color-AzulClaro); }
+.tabla-admin th[data-orden="desc"]::after { content: ' ↓'; opacity: 1; color: var(--color-AzulClaro); }
+
+/* Filas */
+.tabla-admin td {
+  padding: var(--espacio-4) var(--espacio-5);
+  border-bottom: 1px solid var(--admin-borde);
+  color: var(--texto-primario);
+  vertical-align: middle;
+}
+
+.tabla-admin tbody tr:last-child td { border-bottom: none; }
+
+.tabla-admin tbody tr {
+  transition: background var(--trans-rapida);
+}
+
+.tabla-admin tbody tr:hover td {
+  background: rgba(0,106,234,0.03);
+}
+
+/* Celda de nombre con avatar */
+.celda-nombre {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-3);
+}
+
+.celda-nombre__avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radio-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  background: var(--admin-fondo);
+}
+
+.celda-nombre__principal {
+  font-weight: 600;
+  color: var(--texto-primario);
+}
+
+.celda-nombre__secundario {
+  font-size: var(--texto-xs);
+  color: var(--texto-tenue);
+}
+
+/* Acciones de fila */
+.celda-acciones {
+  display: flex;
+  gap: var(--espacio-2);
+  align-items: center;
+}
+
+.btn-tabla {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radio-sm);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--trans-rapida);
+  border: 1.5px solid transparent;
+  text-decoration: none;
+}
+
+.btn-tabla--editar {
+  background: rgba(0,106,234,0.08);
+  color: var(--color-AzulClaro);
+  border-color: rgba(0,106,234,0.15);
+}
+
+.btn-tabla--editar:hover {
+  background: var(--color-AzulClaro);
+  color: #ffffff;
+  border-color: var(--color-AzulClaro);
+}
+
+.btn-tabla--eliminar {
+  background: rgba(220,38,38,0.08);
+  color: var(--color-error);
+  border-color: rgba(220,38,38,0.15);
+}
+
+.btn-tabla--eliminar:hover {
+  background: var(--color-error);
+  color: #ffffff;
+  border-color: var(--color-error);
+}
+
+.btn-tabla--ver {
+  background: rgba(22,74,152,0.08);
+  color: var(--color-AzulOscuro);
+  border-color: rgba(22,74,152,0.15);
+}
+
+.btn-tabla--ver:hover {
+  background: var(--color-AzulOscuro);
+  color: #ffffff;
+}
+
+
+/* ================================================================
+   9. ETIQUETAS DE ESTADO (BADGES)
+   ================================================================ */
+
+.estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: var(--radio-full);
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.estado::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.estado--activo   { background: rgba(22,163,74,0.10); color: #15803d; }
+.estado--inactivo { background: rgba(156,163,175,0.15); color: var(--texto-tenue); }
+.estado--pendiente{ background: rgba(255,198,62,0.18); color: #b45309; }
+.estado--cancelado{ background: rgba(220,38,38,0.08); color: var(--color-error); }
+.estado--agotado  { background: rgba(220,38,38,0.08); color: var(--color-error); }
+
+/* Badge de rol */
+.rol-badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: var(--radio-full);
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.rol-badge--admin     { background: rgba(22,74,152,0.10); color: var(--color-AzulOscuro); }
+.rol-badge--asistente { background: rgba(113,44,134,0.08); color: var(--color-Morado); }
+
+
+/* ================================================================
+   10. BARRA DE PROGRESO DE CUPOS
+   ================================================================ */
+
+.barra-cupos-admin {
+  width: 100%;
+  min-width: 80px;
+  max-width: 120px;
+}
+
+.barra-cupos-admin__pista {
+  height: 6px;
+  background: var(--admin-borde);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.barra-cupos-admin__relleno {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.barra-cupos-admin__texto {
+  font-size: var(--texto-xs);
+  color: var(--texto-tenue);
+  margin-top: 3px;
+}
+
+
+/* ================================================================
+   11. LISTA DE ACTIVIDAD RECIENTE
+   ================================================================ */
+
+.actividad-reciente {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.actividad-item {
+  display: flex;
+  gap: var(--espacio-3);
+  padding: var(--espacio-3) 0;
+  border-bottom: 1px solid var(--admin-borde);
+  align-items: flex-start;
+}
+
+.actividad-item:last-child { border-bottom: none; }
+
+.actividad-item__icono {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(0,106,234,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.actividad-item__contenido { flex: 1; min-width: 0; }
+
+.actividad-item__titulo {
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  color: var(--texto-primario);
+}
+
+.actividad-item__meta {
+  font-size: var(--texto-xs);
+  color: var(--texto-tenue);
+  margin-top: 1px;
+}
+
+.actividad-item__tiempo {
+  font-size: var(--texto-xs);
+  color: var(--texto-tenue);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+
+/* ================================================================
+   12. BARRA DE BÚSQUEDA + FILTROS EN TABLAS
+   ================================================================ */
+
+.tabla-controles {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espacio-4);
+  padding: var(--espacio-4) var(--espacio-6);
+  border-bottom: 1px solid var(--admin-borde);
+  flex-wrap: wrap;
+}
+
+.tabla-filtros {
+  display: flex;
+  gap: var(--espacio-2);
+  flex-wrap: wrap;
+}
+
+.tabla-filtro {
+  padding: 4px 12px;
+  border-radius: var(--radio-full);
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  border: 1.5px solid var(--admin-borde);
+  background: transparent;
+  color: var(--texto-tenue);
+  transition: all var(--trans-rapida);
+}
+
+.tabla-filtro:hover { border-color: var(--color-AzulClaro); color: var(--color-AzulClaro); }
+
+.tabla-filtro--activo {
+  background: var(--color-AzulOscuro);
+  border-color: var(--color-AzulOscuro);
+  color: #ffffff;
+}
+
+.tabla-info-resultados {
+  font-size: var(--texto-xs);
+  color: var(--texto-tenue);
+  white-space: nowrap;
+}
+
+.tabla-info-resultados strong {
+  color: var(--texto-primario);
+  font-weight: 700;
+}
+
+/* Paginación */
+.paginacion {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--espacio-2);
+  padding: var(--espacio-4) var(--espacio-6);
+  border-top: 1px solid var(--admin-borde);
+}
+
+.paginacion__btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radio-sm);
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  border: 1.5px solid var(--admin-borde);
+  background: transparent;
+  color: var(--texto-secundario);
+  cursor: pointer;
+  transition: all var(--trans-rapida);
+}
+
+.paginacion__btn:hover { border-color: var(--color-AzulClaro); color: var(--color-AzulClaro); }
+.paginacion__btn--activo { background: var(--color-AzulOscuro); border-color: var(--color-AzulOscuro); color: #ffffff; }
+.paginacion__btn:disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+
+/* ================================================================
+   13. MODAL DEL PANEL ADMIN
+   ================================================================ */
+
+/* Reutiliza .modal-fondo y .modal de styles.css */
+/* Estilos adicionales específicos del admin: */
+
+.modal--admin .modal {
+  max-width: 560px;
+}
+
+.modal--admin-lg .modal {
+  max-width: 720px;
+}
+
+.modal__confirmacion {
+  text-align: center;
+  padding: var(--espacio-4) 0;
+}
+
+.modal__confirmacion-icono {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: var(--espacio-4);
+}
+
+.modal__confirmacion-titulo {
+  font-size: var(--texto-xl);
+  font-weight: 800;
+  margin-bottom: var(--espacio-3);
+  color: var(--texto-primario);
+}
+
+.modal__confirmacion-texto {
+  font-size: var(--texto-sm);
+  color: var(--texto-secundario);
+  line-height: 1.6;
+  max-width: 360px;
+  margin-inline: auto;
+}
+
+
+/* ================================================================
+   14. FORMULARIOS DEL ADMIN (extiende los de styles.css)
+   ================================================================ */
+
+/* Grilla de campos */
+.form-grilla {
+  display: grid;
+  gap: var(--espacio-4);
+}
+
+.form-grilla--2col { grid-template-columns: 1fr 1fr; }
+.form-grilla--3col { grid-template-columns: 1fr 1fr 1fr; }
+
+@media (max-width: 600px) {
+  .form-grilla--2col,
+  .form-grilla--3col { grid-template-columns: 1fr; }
+}
+
+/* Campo que ocupa todas las columnas */
+.form-grilla__completo { grid-column: 1 / -1; }
+
+/* Estilos de error (complementa campo-form__control--error) */
+.campo-error-msg {
+  font-size: var(--texto-xs);
+  color: var(--color-error);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-1);
+  margin-top: var(--espacio-1);
+}
+
+
+/* ================================================================
+   15. CHART / BARRA DE PROGRESO CIRCULAR (resumen visual)
+   ================================================================ */
+
+.ring-chart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.ring-chart__svg { transform: rotate(-90deg); }
+
+.ring-chart__track {
+  fill: none;
+  stroke: var(--admin-borde);
+  stroke-width: 8;
+}
+
+.ring-chart__fill {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.8s ease;
+}
+
+.ring-chart__texto {
+  position: absolute;
+  text-align: center;
+  font-size: var(--texto-sm);
+  font-weight: 800;
+  color: var(--texto-primario);
+}
+
+.ring-chart__sub {
+  font-size: var(--texto-xs);
+  color: var(--texto-tenue);
+  font-weight: 500;
+}
+
+
+/* ================================================================
+   16. RESPONSIVE DEL PANEL
+   ================================================================ */
+
+/* Tablet — 1024px */
+@media (max-width: 1024px) {
+  .grid-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar__buscador {
+    display: none;
+  }
+}
+
+/* Móvil — 768px */
+@media (max-width: 768px) {
+  .admin-main {
+    margin-left: 0;
+  }
+
+  /* Sidebar se convierte en drawer deslizante */
+  .sidebar {
+    transform: translateX(-100%);
+    width: var(--sidebar-ancho);
+    box-shadow: none;
+  }
+
+  .sidebar--abierto {
+    transform: translateX(0);
+    box-shadow: 4px 0 32px rgba(22,74,152,0.25);
+  }
+
+  /* Fondo oscuro detrás del sidebar */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15,24,50,0.45);
+    z-index: 199;
+    backdrop-filter: blur(2px);
+  }
+
+  .sidebar-overlay--visible { display: block; }
+
+  .topbar__btn-menu { display: flex; }
+
+  .admin-contenido { padding: var(--espacio-4); }
+
+  .grid-stats { grid-template-columns: 1fr 1fr; }
+
+  .tabla-controles {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Móvil pequeño — 480px */
+@media (max-width: 480px) {
+  .grid-stats { grid-template-columns: 1fr; }
+  .admin-contenido { padding: var(--espacio-3); }
+  .tabla-admin { font-size: var(--texto-xs); }
+  .tabla-admin td, .tabla-admin th { padding: var(--espacio-3); }
+}

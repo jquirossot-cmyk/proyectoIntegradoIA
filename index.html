@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Jouslynia — Sistema oficial de gestión de eventos de la Universidad CENFOTEC. Congresos, talleres, hackathons y más.">
+  <meta name="theme-color" content="#164a98">
+  <title>Jouslynia · Eventos CENFOTEC</title>
+
+  <!-- Hojas de estilo -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header class="encabezado" id="encabezado" role="banner">
+    <div class="contenedor encabezado__interior">
+
+      <a href="index.html" class="marca" aria-label="Jouslynia — Inicio">
+        <div class="marca__icono" aria-hidden="true">
+          <img src="img/logo-cenfotec.png" alt="Logo CENFOTEC"
+               onerror="this.style.display='none'; this.parentElement.textContent='J'">
+        </div>
+        <div class="marca__textos">
+          <span class="marca__nombre">Jouslynia</span>
+          <span class="marca__sub">CENFOTEC Eventos</span>
+        </div>
+      </a>
+
+      <nav class="nav-principal" id="nav-principal" aria-label="Navegación principal">
+        <a href="#inicio"   class="nav-principal__enlace" aria-current="page">Inicio</a>
+        <a href="#eventos"  class="nav-principal__enlace">Eventos</a>
+        <a href="#agenda"   class="nav-principal__enlace">Agenda</a>
+        <a href="#contacto" class="nav-principal__enlace">Contacto</a>
+      </nav>
+
+      <div class="encabezado__acciones" id="acciones-header" aria-label="Cuenta de usuario">
+        <a href="pages/login.html"    class="btn btn-secundario btn-sm">Ingresar</a>
+        <a href="pages/registro.html" class="btn btn-primario btn-sm">Registrarse</a>
+      </div>
+
+      <button class="btn-hamburguesa" id="btn-hamburguesa"
+              aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-movil">
+        <span class="btn-hamburguesa__linea"></span>
+        <span class="btn-hamburguesa__linea"></span>
+        <span class="btn-hamburguesa__linea"></span>
+      </button>
+
+    </div>
+  </header>
+
+  <!-- Navegación móvil -->
+  <nav class="nav-movil" id="nav-movil" aria-label="Menú móvil">
+    <a href="#inicio"   class="nav-movil__enlace">🏠 Inicio</a>
+    <a href="#eventos"  class="nav-movil__enlace">🗓️ Eventos</a>
+    <a href="#agenda"   class="nav-movil__enlace">📋 Agenda</a>
+    <a href="#contacto" class="nav-movil__enlace">✉️ Contacto</a>
+    <div class="nav-movil__separador" aria-hidden="true"></div>
+    <div class="nav-movil__acciones" id="acciones-movil">
+      <a href="pages/login.html"    class="btn btn-secundario btn-bloque">Ingresar</a>
+      <a href="pages/registro.html" class="btn btn-primario btn-bloque">Registrarse</a>
+    </div>
+  </nav>
+
+
+  <main id="contenido-principal">
+
+    <!-- ==========================================================
+         HERO
+         ========================================================== -->
+    <section class="hero" id="inicio" aria-labelledby="hero-titulo">
+      <div class="contenedor" style="display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:4rem;padding-block:5rem;">
+
+        <div class="hero__texto">
+          <div class="hero__etiqueta" role="note">Plataforma oficial CENFOTEC</div>
+
+          <h1 class="hero__titulo" id="hero-titulo">
+            Conecta con<br>
+            el <span class="hero__titulo-acento">conocimiento</span><br>
+            en CENFOTEC
+          </h1>
+
+          <p class="hero__bajada">
+            Descubre congresos, talleres, hackathons y seminarios diseñados
+            para impulsar tu carrera en tecnología. Todo en un solo lugar.
+          </p>
+
+          <div class="hero__acciones">
+            <a href="#eventos" class="btn btn-primario btn-lg">🗓️ Explorar eventos</a>
+            <a href="pages/registro.html" class="btn btn-secundario btn-lg">Crear cuenta gratis</a>
+          </div>
+
+          <div class="hero__metricas" aria-label="Estadísticas de la plataforma">
+            <div>
+              <div class="hero__metrica-numero"><span id="stat-eventos">–</span></div>
+              <div class="hero__metrica-label">Eventos activos</div>
+            </div>
+            <div>
+              <div class="hero__metrica-numero"><span id="stat-actividades">–</span></div>
+              <div class="hero__metrica-label">Actividades</div>
+            </div>
+            <div>
+              <div class="hero__metrica-numero"><span id="stat-cupos">–</span></div>
+              <div class="hero__metrica-label">Cupos disponibles</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel flotante de próximos eventos -->
+        <div class="hero__visual" aria-hidden="true">
+          <div style="position:relative;">
+            <div class="hero__deco-1"></div>
+            <div class="hero__deco-2"></div>
+            <div class="hero-panel">
+              <div class="hero-panel__titulo">
+                Próximos eventos
+                <div class="hero-panel__indicador-vivo">En vivo</div>
+              </div>
+              <div id="panel-proximos-eventos">
+                <div style="text-align:center;padding:2rem;color:rgba(255,255,255,0.5);font-size:0.8rem;">
+                  Cargando…
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==========================================================
+         EVENTOS
+         ========================================================== -->
+    <section class="seccion-eventos" id="eventos" aria-labelledby="titulo-eventos">
+      <div class="contenedor">
+
+        <div class="separador-seccion">
+          <span class="separador-seccion__etiqueta">Calendario 2026</span>
+          <h2 class="separador-seccion__titulo" id="titulo-eventos">
+            Eventos <em>disponibles</em>
+          </h2>
+          <p class="separador-seccion__descripcion">
+            Explora nuestra oferta de formación y networking para este semestre.
+          </p>
+        </div>
+
+        <div class="eventos__controles">
+          <div class="filtros" role="group" aria-label="Filtrar por categoría">
+            <button class="filtro filtro--activo" data-filtro="todos"       type="button">Todos</button>
+            <button class="filtro" data-filtro="congreso"    type="button">🎓 Congresos</button>
+            <button class="filtro" data-filtro="taller"      type="button">🛠️ Talleres</button>
+            <button class="filtro" data-filtro="seminario"   type="button">📚 Seminarios</button>
+            <button class="filtro" data-filtro="hackathon"   type="button">💻 Hackathons</button>
+            <button class="filtro" data-filtro="conferencia" type="button">🎤 Conferencias</button>
+          </div>
+          <div class="buscador" role="search">
+            <span class="buscador__icono" aria-hidden="true">🔍</span>
+            <input class="buscador__input" type="search" id="buscador-eventos"
+                   placeholder="Buscar evento…" aria-label="Buscar eventos" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="grid-eventos" id="grid-eventos"
+             role="list" aria-label="Lista de eventos" aria-live="polite">
+          <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--texto-tenue);">
+            <span aria-hidden="true">⏳</span>
+            <p style="margin-top:.5rem;">Cargando eventos…</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==========================================================
+         AGENDA
+         ========================================================== -->
+    <section class="seccion-agenda" id="agenda" aria-labelledby="titulo-agenda">
+      <div class="contenedor">
+
+        <div class="separador-seccion">
+          <span class="separador-seccion__etiqueta">Programación</span>
+          <h2 class="separador-seccion__titulo" id="titulo-agenda">
+            Agenda de <em>actividades</em>
+          </h2>
+          <p class="separador-seccion__descripcion">
+            Consulta el programa detallado de cada evento.
+          </p>
+        </div>
+
+        <div class="agenda__layout">
+
+          <div>
+            <div class="agenda__selector-wrap">
+              <label class="agenda__selector-label" for="selector-evento-agenda">Ver agenda de:</label>
+              <select class="agenda__selector" id="selector-evento-agenda"
+                      aria-label="Seleccionar evento">
+                <option value="">Cargando eventos…</option>
+              </select>
+            </div>
+
+            <div class="timeline" id="timeline-actividades"
+                 role="list" aria-label="Actividades del evento" aria-live="polite">
+              <div class="timeline__vacio" role="status">
+                <span aria-hidden="true">📋</span>
+                <p>Cargando agenda…</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="calendario" role="application" aria-label="Calendario de eventos">
+              <div class="calendario__cabecera">
+                <button class="calendario__nav" id="cal-anterior" aria-label="Mes anterior" type="button">‹</button>
+                <span class="calendario__mes-anio" id="calendario-mes-anio" aria-live="polite">Cargando…</span>
+                <button class="calendario__nav" id="cal-siguiente" aria-label="Mes siguiente" type="button">›</button>
+              </div>
+              <div class="calendario__grid" id="calendario-grid" role="grid" aria-label="Días del mes"></div>
+              <div class="calendario__leyenda" aria-label="Leyenda del calendario">
+                <div class="calendario__leyenda-item">
+                  <div class="calendario__leyenda-punto" style="background:var(--color-AzulOscuro);" aria-hidden="true"></div>
+                  <span>Hoy</span>
+                </div>
+                <div class="calendario__leyenda-item">
+                  <div class="calendario__leyenda-punto" style="background:var(--color-AzulClaro);" aria-hidden="true"></div>
+                  <span>Evento</span>
+                </div>
+              </div>
+            </div>
+            <p style="margin-top:1rem;font-size:0.7rem;color:var(--texto-tenue);text-align:center;">
+              Los días marcados tienen eventos. Haz clic para ver la agenda.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ==========================================================
+         CTA
+         ========================================================== -->
+    <section class="seccion-cta" id="contacto" aria-labelledby="cta-titulo">
+      <div class="contenedor">
+        <div class="cta__interior">
+          <h2 class="cta__titulo" id="cta-titulo">
+            ¿Listo para ser parte del<br><span>próximo gran evento</span>?
+          </h2>
+          <p class="cta__texto">
+            Regístrate gratis y obtén acceso a todos los eventos de CENFOTEC.
+          </p>
+          <div class="cta__acciones">
+            <a href="pages/registro.html" class="btn btn-acento btn-lg">✨ Crear cuenta gratis</a>
+            <a href="pages/login.html"    class="btn btn-fantasma btn-lg">Ya tengo cuenta</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="pie-pagina" role="contentinfo">
+    <div class="contenedor">
+      <div class="pie-pagina__grilla">
+
+        <div class="pie-marca">
+          <a href="index.html" class="marca" aria-label="Jouslynia inicio">
+            <div class="marca__icono" style="background:linear-gradient(135deg,#1e3a8a,var(--color-AzulClaro));" aria-hidden="true">J</div>
+            <div class="marca__textos">
+              <span class="marca__nombre" style="color:#fff;">Jouslynia</span>
+              <span class="marca__sub" style="color:rgba(255,255,255,.4);">CENFOTEC Eventos</span>
+            </div>
+          </a>
+          <p class="pie-marca__descripcion">
+            Plataforma oficial de gestión de eventos de la Universidad CENFOTEC.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="pie-columna__titulo">Eventos</h3>
+          <ul class="pie-columna__lista">
+            <li><a href="#eventos">Todos los eventos</a></li>
+            <li><a href="#agenda">Agenda</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="pie-columna__titulo">Mi cuenta</h3>
+          <ul class="pie-columna__lista">
+            <li><a href="pages/login.html">Iniciar sesión</a></li>
+            <li><a href="pages/registro.html">Registrarse</a></li>
+            <li><a href="pages/panel-admin.html">Panel admin</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="pie-columna__titulo">Contacto</h3>
+          <ul class="pie-columna__lista">
+            <li><a href="mailto:eventos@cenfotec.ac.cr">eventos@cenfotec.ac.cr</a></li>
+            <li><a href="tel:+50622419090">(506) 2241-9090</a></li>
+            <li>San José, Costa Rica</li>
+          </ul>
+        </div>
+
+      </div>
+      <div class="pie-pagina__barra-inferior">
+        <p class="pie-pagina__copyright">© 2026 Universidad CENFOTEC · Proyecto Jouslynia.</p>
+        <div class="pie-pagina__redes" aria-label="Redes sociales">
+          <a href="#" class="pie-pagina__red" aria-label="LinkedIn">in</a>
+          <a href="#" class="pie-pagina__red" aria-label="Instagram">📷</a>
+          <a href="#" class="pie-pagina__red" aria-label="Twitter">𝕏</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast-contenedor" id="toast-contenedor" aria-live="assertive" aria-atomic="false"></div>
+
+  <!-- Scripts: orden importante -->
+  <script src="js/auth.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
