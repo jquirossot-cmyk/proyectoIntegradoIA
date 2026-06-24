@@ -467,14 +467,14 @@ function actualizarAccionesHeader() {
         👋 ${escaparHTML(sesion.nombre)}
       </span>
       ${sesion.rol === 'admin'
-        ? `<a href="html/panel-admin.html" class="btn btn-primario btn-sm">Panel admin</a>`
+        ? `<a href="pages/panel-admin.html" class="btn btn-primario btn-sm">Panel admin</a>`
         : ''}
       <button onclick="cerrarSesion()" class="btn btn-secundario btn-sm">Salir</button>
     `;
   } else {
     contenedor.innerHTML = `
-      <a href="html/login.html" class="btn btn-secundario btn-sm">Ingresar</a>
-      <a href="html/registro.html" class="btn btn-primario btn-sm">Registrarse</a>
+      <a href="pages/login.html" class="btn btn-secundario btn-sm">Ingresar</a>
+      <a href="pages/registro.html" class="btn btn-primario btn-sm">Registrarse</a>
     `;
   }
 
@@ -975,24 +975,6 @@ function inicializarAnimacionesEntrada() {
 }
 
 
-/* ================================================================
-   8. GESTIÓN DE SESIÓN (compartida entre páginas)
-   ================================================================ */
-
-const CLAVE_SESION = 'jouslynia_sesion';
-
-/** Obtiene la sesión activa desde sessionStorage */
-function obtenerSesionActiva() {
-  const datos = sessionStorage.getItem(CLAVE_SESION);
-  return datos ? JSON.parse(datos) : null;
-}
-
-/** Cierra la sesión y redirige al inicio */
-function cerrarSesion() {
-  sessionStorage.removeItem(CLAVE_SESION);
-  window.location.href = '/index.html';
-}
-
 
 /* ================================================================
    9. INICIALIZACIÓN PRINCIPAL
@@ -1022,6 +1004,5 @@ document.addEventListener('DOMContentLoaded', () => {
   /* Hacer disponible globalmente la función del calendario */
   window.filtrarPorFecha     = filtrarPorFecha;
   window.abrirDetalleEvento  = abrirDetalleEvento;
-  window.cerrarSesion        = cerrarSesion;
   window.mostrarToast        = mostrarToast;
 });
