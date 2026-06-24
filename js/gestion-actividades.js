@@ -5,9 +5,6 @@
  */
 'use strict';
 
-/* Protección de ruta: solo administradores */
-protegerRutaAdmin();
-
 inyectarSidebar('actividades');
 inyectarTopbar('Gestión de Actividades', 'actividades');
 

@@ -461,20 +461,20 @@ function actualizarAccionesHeader() {
   const contenedor = sel('#acciones-header');
   if (!contenedor) return;
 
+  /* Botones siempre visibles: login, registro, panel admin (acceso libre) */
   if (sesion) {
     contenedor.innerHTML = `
       <span style="font-size:0.8rem;font-weight:600;color:var(--texto-secundario);">
         👋 ${escaparHTML(sesion.nombre)}
       </span>
-      ${sesion.rol === 'admin'
-        ? `<a href="pages/panel-admin.html" class="btn btn-primario btn-sm">Panel admin</a>`
-        : ''}
+      <a href="pages/panel-admin.html" class="btn btn-primario btn-sm">⚙️ Panel Admin</a>
       <button onclick="cerrarSesion()" class="btn btn-secundario btn-sm">Salir</button>
     `;
   } else {
     contenedor.innerHTML = `
-      <a href="pages/login.html" class="btn btn-secundario btn-sm">Ingresar</a>
-      <a href="pages/registro.html" class="btn btn-primario btn-sm">Registrarse</a>
+      <a href="pages/login.html"       class="btn btn-secundario btn-sm">Ingresar</a>
+      <a href="pages/registro.html"    class="btn btn-secundario btn-sm">Registrarse</a>
+      <a href="pages/panel-admin.html" class="btn btn-primario btn-sm">⚙️ Panel Admin</a>
     `;
   }
 

@@ -5,9 +5,6 @@
  */
 'use strict';
 
-/* Protección de ruta: solo administradores */
-protegerRutaAdmin();
-
 /* Inicializar sidebar y topbar */
 inyectarSidebar('eventos');
 inyectarTopbar('Gestión de Eventos', 'eventos');

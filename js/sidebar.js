@@ -91,8 +91,8 @@ function inyectarSidebar(paginaActiva) {
 
     <div class="sidebar__pie">
       <button class="btn-cerrar-sesion" onclick="cerrarSesion()">
-        <span>🚪</span>
-        <span class="nav-enlace__texto">Cerrar sesión</span>
+        <span>🏠</span>
+        <span class="nav-enlace__texto">Volver al inicio</span>
       </button>
     </div>
   `;

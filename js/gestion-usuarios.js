@@ -5,9 +5,6 @@
  */
 'use strict';
 
-/* Protección de ruta: solo administradores */
-protegerRutaAdmin();
-
 /* ---- Estado ---- */
 let filtroActivo   = 'todos';
 let terminoBusq    = '';

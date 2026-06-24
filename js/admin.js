@@ -669,11 +669,6 @@ function configurarInfoAdmin() {
    8. INICIALIZACIÓN AUTOMÁTICA
    ================================================================ */
 
-/* Proteger todas las páginas que carguen este script */
-if (typeof protegerRutaAdmin === 'function') {
-  protegerRutaAdmin();
-}
-
 /* Garantizar datos de demo */
 inicializarDatosAdmin();
 

@@ -5,9 +5,6 @@
  */
 'use strict';
 
-/* Protección de ruta: solo administradores */
-protegerRutaAdmin();
-
 inyectarSidebar('dashboard');
 inyectarTopbar('Dashboard', 'dashboard');
 

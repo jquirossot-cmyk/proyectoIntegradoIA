@@ -10,9 +10,6 @@
  */
 'use strict';
 
-/* Si ya hay sesión activa, redirigir de inmediato */
-redirigirSiYaTieneSesion();
-
 /* ----------------------------------------------------------------
    Referencias DOM
    ---------------------------------------------------------------- */
